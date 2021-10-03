@@ -48,32 +48,32 @@ CREATE TABLE Item(
     FOREIGN KEY(customerID) REFERENCES Customer(customerID));
 
 CREATE TABLE Request(
-requestID VARCHAR(15) NOT NULL,
-requestStatus VARCHAR(30) NOT NULL CHECK (requestStatus IN ('Submitted',
+    requestID VARCHAR(15) NOT NULL,
+    requestStatus VARCHAR(30) NOT NULL CHECK (requestStatus IN ('Submitted',
                    'Submitted and Waiting for payment','In progress','Approved',
                    'Canceled','Completed')),
-requestDate DATE, 
-customerID VARCHAR(15) NOT NULL,
-administratorID  VARCHAR(15) NOT NULL,
-itemID VARCHAR(15) NOT NULL,
-PRIMARY KEY (requestID),
-FOREIGN KEY (customerID) REFERENCES Customer(customerID),
-FOREIGN KEY (administratorID) REFERENCES Administrator(administratorID),
-FOREIGN KEY (itemID) REFERENCES Item(itemID));
+    requestDate DATE, 
+    customerID VARCHAR(15) NOT NULL,
+    administratorID  VARCHAR(15) NOT NULL,
+    itemID VARCHAR(15) NOT NULL,
+    PRIMARY KEY (requestID),
+    FOREIGN KEY (customerID) REFERENCES Customer(customerID),
+    FOREIGN KEY (administratorID) REFERENCES Administrator(administratorID),
+    FOREIGN KEY (itemID) REFERENCES Item(itemID));
 
 CREATE TABLE Payment(
-paymentID VARCHAR(15) NOT NULL,
-paymentDate DATE,
-paymentAmt SMALLINT, 
-customerID VARCHAR(15) NOT NULL,
-PRIMARY KEY (paymentID),
-FOREIGN KEY (customerID) REFERENCES Customer(customerID));
+    paymentID VARCHAR(15) NOT NULL,
+    paymentDate DATE,
+    paymentAmt SMALLINT, 
+    customerID VARCHAR(15) NOT NULL,
+    PRIMARY KEY (paymentID),
+    FOREIGN KEY (customerID) REFERENCES Customer(customerID));
 
 CREATE TABLE ServiceFee(
-requestID VARCHAR(30) NOT NULL,
-paymentID VARCHAR(30) NOT NULL,
-creationDate DATE,
-flatFee SMALLINT, 
-materialFee SMALLINT,
-PRIMARY KEY (requestID, PaymentID, creationDate));
+    requestID VARCHAR(30) NOT NULL,
+    paymentID VARCHAR(30) NOT NULL,
+    creationDate DATE,
+    flatFee SMALLINT, 
+    materialFee SMALLINT,
+    PRIMARY KEY (requestID, PaymentID, creationDate));
 
