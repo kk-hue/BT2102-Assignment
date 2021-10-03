@@ -19,27 +19,26 @@ CREATE TABLE Administrator(
     PRIMARY KEY (AdministratorID));
 
 CREATE TABLE Product(
-	productID VARCHAR(15) NOT NULL,
+    productID VARCHAR(15) NOT NULL,
     productModel VARCHAR(10) NOT NULL,
-	category VARCHAR(6) NOT NULL,
-	price VARCHAR(30) NOT NULL,
+    category VARCHAR(6) NOT NULL,
+    price VARCHAR(30) NOT NULL,
     cost VARCHAR(30) NOT NULL,
     warrantyDuration VARCHAR(30) NOT NULL,
     PRIMARY KEY(productID));
 
 CREATE TABLE Item(
-	itemID VARCHAR(15) NOT NULL,
-    purchaseStatus VARCHAR(6) NOT NULL
-		DEFAULT 'Unsold'
-        CHECK (purchaseStatus IN ('Unsold', 'Sold')),
-	factory VARCHAR(30),
+    itemID VARCHAR(15) NOT NULL,
+    purchaseStatus VARCHAR(6) NOT NULL DEFAULT 'Unsold'
+    CHECK (purchaseStatus IN ('Unsold', 'Sold')),
+    factory VARCHAR(30),
     producationYear VARCHAR(4),
     color VARCHAR(15),
     powerSupply VARCHAR(30),
     serviceStatus VARCHAR(20) NOT NULL
-		DEFAULT 'Waiting for approval'
-        CHECK (serviceStatus IN ('Waiting for approval', 'In progres', 'Completed')),
-	administratorID VARCHAR(15),
+    DEFAULT 'Waiting for approval'
+    CHECK (serviceStatus IN ('Waiting for approval', 'In progres', 'Completed')),
+    administratorID VARCHAR(15),
     productID VARCHAR(15),
     customerID VARCHAR(15),
     dateOfPurchase VARCHAR(30),
