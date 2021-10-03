@@ -37,7 +37,7 @@ CREATE TABLE Item(
     powerSupply VARCHAR(30),
     serviceStatus VARCHAR(20) NOT NULL
     DEFAULT 'Waiting for approval'
-    CHECK (serviceStatus IN ('Waiting for approval', 'In progres', 'Completed')),
+    CHECK (serviceStatus IN ('Waiting for approval', 'In progress', 'Completed')),
     administratorID VARCHAR(15),
     productID VARCHAR(15),
     customerID VARCHAR(15),
