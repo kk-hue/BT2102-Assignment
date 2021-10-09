@@ -106,7 +106,7 @@ class ProductImport:
                 cursor.executemany(mySql_insert_query, records_to_insert)
                 connection.commit()
                 messagebox.showinfo("Success",str(cursor.rowcount) + " Record inserted successfully into Product table", parent=self.root)
-                print(cursor.rowcount, "Record inserted successfully into Product table")
+                print(cursor.rowcount, "record inserted successfully into Product table")
 
             except mysql.connector.Error as error:
                 messagebox.showerror("Error", "Failed to insert record into MySQL table {}".format(error), parent=self.root)
