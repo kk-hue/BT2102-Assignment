@@ -40,7 +40,7 @@ CREATE TABLE Item(
     administratorID VARCHAR(15) DEFAULT NULL,
     productID VARCHAR(15) DEFAULT NULL,
     customerID VARCHAR(15) DEFAULT NULL,
-    dateOfPurchase VARCHAR(30) DEFAULT NULL,
+    dateOfPurchase DATE DEFAULT NULL,
     PRIMARY KEY(itemID),
     FOREIGN KEY(administratorID) REFERENCES Administrator(administratorID),
     FOREIGN KEY(productID) REFERENCES Product(productID),
