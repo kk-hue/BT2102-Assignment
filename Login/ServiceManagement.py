@@ -139,7 +139,7 @@ class ServiceManagement:
         self.administratorID.set(row[5])
 
     def fetch_data(self):
-        con=mysql.connector.connect(host="localhost", user="root", password="ddcc1314520!", database="oshes")
+        con=mysql.connector.connect(host="localhost", user="root", password="ddcc!", database="oshes")
         cur=con.cursor()
         cur.execute("select itemID, r.requestID, r.requestStatus, serviceStatus, i.customerID, i.administratorID from request AS r left join Item AS i using(itemID);")
         rows=cur.fetchall()
@@ -152,7 +152,7 @@ class ServiceManagement:
 
 #some problems with update the status in approval
     def Serve(self):
-        con = mysql.connector.connect(host="localhost", user="root", password="ddcc1314520!", database="oshes")
+        con = mysql.connector.connect(host="localhost", user="root", password="ddcc!", database="oshes")
         cur = con.cursor()
         cur.execute("update Item set administratorID = %s where itemID = %s ", (
             self.administratorID.get(),
@@ -164,7 +164,7 @@ class ServiceManagement:
         con.close()
 
     def Complete(self):
-        con = mysql.connector.connect(host="localhost", user="root", password="ddcc1314520!", database="oshes")
+        con = mysql.connector.connect(host="localhost", user="root", password="ddcc!", database="oshes")
         cur = con.cursor()
         cur.execute("update Item set serviceStatus = 'Completed' where itemID = %s ", (
             self.itemID.get(),
@@ -187,7 +187,7 @@ class ServiceManagement:
 #how to clear the search result
 
     def search_data(self):
-        con=mysql.connector.connect(host="localhost", user="root", password="ddcc1314520!", database="oshes")
+        con=mysql.connector.connect(host="localhost", user="root", password="ddcc!", database="oshes")
         cur=con.cursor()
         cur.execute("select itemID, r.requestID, r.requestStatus, serviceStatus, i.customerID, i.administratorID from request AS r left join Item AS i using(itemID) where "
                     +str(self.search_by.get())+" LIKE '%"+str(self.search_txt.get())+"%'")
