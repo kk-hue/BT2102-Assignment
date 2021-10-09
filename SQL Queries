@@ -1,7 +1,7 @@
 #Inventory level 
 SELECT category, productModel, (SELECT COUNT(*)
-							    from item 
-							    WHERE purchaseStatus = "Unsold") 
+				FROM item 
+				WHERE purchaseStatus = "Unsold") 
                                 AS inventoryLevel
 FROM product 
 GROUP BY category, productModel; 
@@ -14,12 +14,12 @@ ALTER TABLE servicefee ALTER COLUMN flatFee SET DEFAULT 40;
 
 #Service fee calculation
 SELECT requestID, flatfee, (flatFee + (SELECT (0.2 * cost) 
-				              FROM product p
-				              WHERE productID = (SELECT productID
-									             FROM item 
-												WHERE itemID = (SELECT itemID
-													            FROM request r
-													            WHERE r.requestID = s.requestID)))) AS totalFee
+				       FROM product p
+				       WHERE productID = (SELECT productID
+							  FROM item 
+						          WHERE itemID = (SELECT itemID
+								          FROM request r
+									  WHERE r.requestID = s.requestID)))) AS totalFee
 FROM servicefee s;
 
 
