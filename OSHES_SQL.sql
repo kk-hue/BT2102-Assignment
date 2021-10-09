@@ -29,7 +29,7 @@ CREATE TABLE Product(
 
 CREATE TABLE Item(
     itemID VARCHAR(15) NOT NULL,
-    purchaseStatus VARCHAR(6) NOT NULL DEFAULT 'Unsold'
+    purchaseStatus VARCHAR(6) NOT NULL
     CHECK (purchaseStatus IN ('Unsold', 'Sold')),
     factory VARCHAR(30),
     producationYear VARCHAR(4),
