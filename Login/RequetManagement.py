@@ -139,7 +139,7 @@ class RequestManagement:
         self.itemID.set(row[4])
 
     def fetch_data(self):
-        con=mysql.connector.connect(host="localhost", user="root", password="ddcc1314520!", database="oshes")
+        con=mysql.connector.connect(host="localhost", user="root", password="ddcc!", database="oshes")
         cur=con.cursor()
         cur.execute("select requestID, requestStatus, requestDate, customerID, itemID from Request")
         rows=cur.fetchall()
@@ -152,7 +152,7 @@ class RequestManagement:
 
 #some problems with update the status in approval
     def ApproveRequest(self):
-        con = mysql.connector.connect(host="localhost", user="root", password="ddcc1314520!", database="oshes")
+        con = mysql.connector.connect(host="localhost", user="root", password="ddcc!", database="oshes")
         cur = con.cursor()
         cur.execute("update Request set requestStatus= 'Approved' where requestID = %s ", (
             self.requestID.get(),
@@ -180,7 +180,7 @@ class RequestManagement:
 #how to clear the search result
 
     def search_data(self):
-        con=mysql.connector.connect(host="localhost", user="root", password="ddcc1314520!", database="oshes")
+        con=mysql.connector.connect(host="localhost", user="root", password="ddcc!", database="oshes")
         cur=con.cursor()
         cur.execute("select requestID, requestStatus, requestDate, customerID, itemID from Request where "
                     +str(self.search_by.get())+" LIKE '%"+str(self.search_txt.get())+"%'")
