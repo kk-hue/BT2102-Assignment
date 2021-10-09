@@ -94,7 +94,7 @@ class ItemImport:
                 mySql_insert_query = """INSERT INTO Item
                                        VALUES (%s, %s, %s, %s, %s, %s, %s, NULL, NULL, NULL, NULL) """
                 if data[0]['ServiceStatus'] == '':
-                    ServiceStatus = 'Waiting for approval'
+                    ServiceStatus = NULL
                 else:
                     ServiceStatus = data[0]['ServiceStatus']
                 records_to_insert = [(data[0]['ItemID'], data[0]['PurchaseStatus'], data[0]['Factory'],
@@ -102,9 +102,9 @@ class ItemImport:
                                       data[0]['PowerSupply'], ServiceStatus), ]
                 for x in data:
                     if x['ServiceStatus'] == '':
-                        ServiceStatus = 'Waiting for approval'
+                        ServiceStatus = NULL
                     else:
-                        ServiceStatus = 'Waiting for approval'
+                        ServiceStatus = x['ServiceStatus']
                     records_to_insert.append((x['ItemID'], x['PurchaseStatus'], x['Factory'], x['ProductionYear'],
                                               x['Color'], x['PowerSupply'], ServiceStatus))
 
