@@ -1,0 +1,54 @@
+#Inventory level 
+SELECT category, productModel, (SELECT COUNT(*)
+							    from item 
+							    WHERE purchaseStatus = "Unsold") 
+                                AS inventoryLevel
+FROM product 
+GROUP BY category, productModel; 
+
+
+
+
+#set default flatfee to $40
+ALTER TABLE servicefee ALTER COLUMN flatFee SET DEFAULT 40;
+
+#Service fee calculation
+SELECT requestID, flatfee, (flatFee + (SELECT (0.2 * cost) 
+				              FROM product p
+				              WHERE productID = (SELECT productID
+									             FROM item 
+												WHERE itemID = (SELECT itemID
+													            FROM request r
+													            WHERE r.requestID = s.requestID)))) AS totalFee
+FROM servicefee s;
+
+
+
+
+#Check if the warranty of each item is still applicable
+SELECT requestID
+FROM request r
+WHERE requestDate < (SELECT DATE_ADD(dateOfPurchase, INTERVAL warrantyDuration MONTH)
+                     FROM item i LEFT JOIN product p ON i.productID = p.productID
+                     WHERE r.itemID = i.itemID);
+                     
+
+
+
+# How many products (based on models are sold)
+SELECT p.productModel, COUNT(*)
+FROM item i LEFT JOIN product p ON i.productID = p.productID
+WHERE purchaseStatus = 'Sold'
+GROUP BY p.productModel;
+
+
+
+
+
+#Query for each customer's list of purchases (based on item)
+SELECT customerID, itemID, dateOfPurchase
+FROM item
+WHERE purchaseStatus = "Sold"
+GROUP BY customerID, itemID, dateOfPurchase;
+
+
