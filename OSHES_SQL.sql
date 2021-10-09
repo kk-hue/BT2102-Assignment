@@ -54,7 +54,7 @@ CREATE TABLE Request(
                    'Canceled','Completed')),
     requestDate DATE, 
     customerID VARCHAR(15) NOT NULL,
-    administratorID  VARCHAR(15) NOT NULL,
+    administratorID  VARCHAR(15),
     itemID VARCHAR(15) NOT NULL,
     PRIMARY KEY (requestID),
     FOREIGN KEY (customerID) REFERENCES Customer(customerID),
