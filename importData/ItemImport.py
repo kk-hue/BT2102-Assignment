@@ -96,7 +96,7 @@ class ItemImport:
 
                 records_to_insert = [(data[0]['ItemID'], data[0]['PurchaseStatus'], data[0]['Factory'],
                                       data[0]['ProductionYear'], data[0]['Color'],
-                                      data[0]['PowerSupply']), ]
+                                      data[0]['PowerSupply']) ]
                 for x in data:
                     records_to_insert.append((x['ItemID'], x['PurchaseStatus'], x['Factory'], x['ProductionYear'],
                                               x['Color'], x['PowerSupply']))
