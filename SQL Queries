@@ -26,11 +26,8 @@ FROM servicefee s;
 
 
 #Check if the warranty of each item is still applicable
-SELECT requestID
-FROM request r
-WHERE requestDate < (SELECT DATE_ADD(dateOfPurchase, INTERVAL warrantyDuration MONTH)
-                     FROM item i LEFT JOIN product p ON i.productID = p.productID
-                     WHERE r.itemID = i.itemID);
+SELECT DATE_ADD(i.dateOfPurchase, INTERVAL p.warrantyDuration MONTH) AS warrantyTill
+FROM item i LEFT JOIN product p ON i.productID = p.productID;
                      
 
 
