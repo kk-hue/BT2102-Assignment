@@ -92,21 +92,14 @@ class ItemImport:
                                                      password=self.password.get())
 
                 mySql_insert_query = """INSERT INTO Item
-                                       VALUES (%s, %s, %s, %s, %s, %s, %s, NULL, NULL, NULL, NULL) """
-                if data[0]['ServiceStatus'] == '':
-                    ServiceStatus = NULL
-                else:
-                    ServiceStatus = data[0]['ServiceStatus']
+                                       VALUES (%s, %s, %s, %s, %s, %s, NULL, NULL, NULL, NULL, NULL) """
+
                 records_to_insert = [(data[0]['ItemID'], data[0]['PurchaseStatus'], data[0]['Factory'],
                                       data[0]['ProductionYear'], data[0]['Color'],
-                                      data[0]['PowerSupply'], ServiceStatus), ]
+                                      data[0]['PowerSupply']), ]
                 for x in data:
-                    if x['ServiceStatus'] == '':
-                        ServiceStatus = NULL
-                    else:
-                        ServiceStatus = x['ServiceStatus']
                     records_to_insert.append((x['ItemID'], x['PurchaseStatus'], x['Factory'], x['ProductionYear'],
-                                              x['Color'], x['PowerSupply'], ServiceStatus))
+                                              x['Color'], x['PowerSupply']))
 
                 del records_to_insert[0]
 
@@ -114,7 +107,7 @@ class ItemImport:
                 cursor.executemany(mySql_insert_query, records_to_insert)
                 connection.commit()
                 messagebox.showinfo("Success",str(cursor.rowcount) + " Record inserted successfully into Item table", parent=self.root)
-                print(cursor.rowcount, "Record inserted successfully into Item table")
+                print(cursor.rowcount, "record inserted successfully into Item table")
 
             except mysql.connector.Error as error:
                 messagebox.showerror("Error", "Failed to insert record into MySQL table {}".format(error), parent=self.root)
