@@ -35,13 +35,12 @@ CREATE TABLE Item(
     producationYear VARCHAR(4),
     color VARCHAR(15),
     powerSupply VARCHAR(30),
-    serviceStatus VARCHAR(20) NOT NULL
-    DEFAULT 'Waiting for approval'
-    CHECK (serviceStatus IN ('Waiting for approval', 'In progress', 'Completed')),
-    administratorID VARCHAR(15),
-    productID VARCHAR(15),
-    customerID VARCHAR(15),
-    dateOfPurchase VARCHAR(30),
+    serviceStatus VARCHAR(20) DEFAULT NULL
+    CHECK (serviceStatus IN (NULL, 'Waiting for approval', 'In progress', 'Completed')),
+    administratorID VARCHAR(15) DEFAULT NULL,
+    productID VARCHAR(15) DEFAULT NULL,
+    customerID VARCHAR(15) DEFAULT NULL,
+    dateOfPurchase VARCHAR(30) DEFAULT NULL,
     PRIMARY KEY(itemID),
     FOREIGN KEY(administratorID) REFERENCES Administrator(administratorID),
     FOREIGN KEY(productID) REFERENCES Product(productID),
