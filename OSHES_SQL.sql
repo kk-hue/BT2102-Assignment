@@ -48,7 +48,7 @@ CREATE TABLE Item(
 
 CREATE TABLE Request(
     requestID VARCHAR(15) NOT NULL,
-    requestStatus VARCHAR(30) IN (NULL,'Submitted',
+    requestStatus VARCHAR(50) IN (NULL,'Submitted',
                    'Submitted and Waiting for payment','In progress','Approved',
                    'Canceled','Completed')),
     requestDate DATE, 
