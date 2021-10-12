@@ -91,15 +91,20 @@ class ItemImport:
                                                      user=self.user.get(),
                                                      password=self.password.get())
 
+                productList = self.product_list()
+                productDict = dict()
+                for product in productList:
+                    productDict[(product[0] , product[1])] = product[2]
+
                 mySql_insert_query = """INSERT INTO Item
-                                       VALUES (%s, %s, %s, %s, %s, %s, NULL, NULL, NULL, NULL, NULL) """
+                                       VALUES (%s, %s, %s, %s, %s, %s, NULL, NULL, %s, NULL, NULL) """
 
                 records_to_insert = [(data[0]['ItemID'], data[0]['PurchaseStatus'], data[0]['Factory'],
                                       data[0]['ProductionYear'], data[0]['Color'],
-                                      data[0]['PowerSupply']) ]
+                                      data[0]['PowerSupply'], productDict[(data[0]['Category'], data[0]['Model'])])]
                 for x in data:
                     records_to_insert.append((x['ItemID'], x['PurchaseStatus'], x['Factory'], x['ProductionYear'],
-                                              x['Color'], x['PowerSupply']))
+                                              x['Color'], x['PowerSupply'], productDict[(x['Category'], x['Model'])]))
 
                 del records_to_insert[0]
 
@@ -118,6 +123,14 @@ class ItemImport:
                     cursor.close()
                     connection.close()
                     print("MySQL connection is closed")
+
+    def product_list(self):
+        con=mysql.connector.connect(host="localhost", user="root", password="sxbl15302", database="oshes")
+        cur=con.cursor()
+        cur.execute("select category, productModel, productID from Product")
+        rows=cur.fetchall()
+        con.close()
+        return rows
 
 
 main = ItemImport(root)
