@@ -94,7 +94,7 @@ class ItemImport:
                 productList = self.product_list()
                 productDict = dict()
                 for product in productList:
-                    productDict[(product[0] , product[1])] = product[2]
+                    productDict[(product[0], product[1])] = product[2]
 
                 mySql_insert_query = """INSERT INTO Item
                                        VALUES (%s, %s, %s, %s, %s, %s, NULL, NULL, %s, NULL, NULL) """
@@ -111,7 +111,7 @@ class ItemImport:
                 cursor = connection.cursor()
                 cursor.executemany(mySql_insert_query, records_to_insert)
                 connection.commit()
-                messagebox.showinfo("Success",str(cursor.rowcount) + " Record inserted successfully into Item table", parent=self.root)
+                messagebox.showinfo("Success", str(cursor.rowcount) + " Record inserted successfully into Item table", parent=self.root)
                 print(cursor.rowcount, "record inserted successfully into Item table")
 
             except mysql.connector.Error as error:
@@ -125,7 +125,10 @@ class ItemImport:
                     print("MySQL connection is closed")
 
     def product_list(self):
-        con=mysql.connector.connect(host="localhost", user="root", password="sxbl15302", database="oshes")
+        con=mysql.connector.connect(host=self.host.get(),
+                                    database=self.database.get(),
+                                    user=self.user.get(),
+                                    password=self.password.get())
         cur=con.cursor()
         cur.execute("select category, productModel, productID from Product")
         rows=cur.fetchall()
