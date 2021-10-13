@@ -4,8 +4,6 @@ from tkinter import ttk, messagebox
 #import tkinter.messagebox as mb
 from PIL import ImageTk, Image
 import mysql.connector
-
-root=Tk()
             
 class AdminDB:
 
@@ -213,7 +211,8 @@ class AdminDB:
 ##            self.id_var.get()
 ##            ))
         #====== Can change all except Model as it is the reference ======, if change to ID cannot work. need to figure out why 
-        cur.execute("update Product set productID=%s, category=%s, price=%s, cost=%s, warrantyDuration=%s where productModel = %s ",(
+        cur.execute("update Product set productID=%s, category=%s, price=%s, cost=%s, "
+                    "warrantyDuration=%s where productModel = %s ",(
             self.id_var.get(),
             self.category_var.get(),
             self.price_var.get(),
@@ -248,6 +247,7 @@ class AdminDB:
         con.close()
         
                 
-
-main = AdminDB(root)
-root.mainloop()
+if __name__ =="__main__":
+    root=Tk()
+    main = AdminDB(root)
+    root.mainloop()

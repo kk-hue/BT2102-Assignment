@@ -4,16 +4,12 @@ from tkinter import ttk, messagebox
 #import tkinter.messagebox as mb
 from PIL import ImageTk, Image
 import mysql.connector
+from NewProduct import NewProduct
+from AdminLogin import AdminLogin
 
-root=Tk()
 
-def toRegister():
-    root.destroy()
-    import Register3
-    
-        
+
 class Login:
-
     def __init__(self, root):
         
         self.root = root
@@ -30,8 +26,8 @@ class Login:
         top = Label(self.root, image=self.top)
         top.place(x=550, y=10, height=150, width=150)
         self.label.pack()
-        
-        
+
+
         #Login Frame
 
         
@@ -41,6 +37,7 @@ class Login:
         self.frame = Frame(self.root, bg="#FFD1C1")
         self.frame.place(x=390, y=150, height=400, width=450)
 
+        self.id_var = StringVar()
 
         #Label and Boxes in Frame
         self.title = Label(self.frame, text = "Login System to OSHES", font=("Calibri", 20, 'bold', "underline"), bg = "#FFD1C1")
@@ -49,7 +46,7 @@ class Login:
         self.userlabel = Label(self.frame, text = "USER ID", font=("Calibri", 15, 'bold'), bg="#FFD1C1")
         self.userlabel.place(x=80, y=70)
 
-        self.entry1= Entry(self.frame, font=("times new roman", 15, 'bold'))
+        self.entry1= Entry(self.frame, font=("times new roman", 15, 'bold'), textvariable=self.id_var)
         self.entry1.place(x=80, y=100, width=250)
 
         self.passlabel = Label(self.frame, text = "PASSWORD", font=("Calibri", 15, 'bold'), bg="#FFD1C1")
@@ -60,18 +57,17 @@ class Login:
 
         self.loginButton = Button(self.frame, text = "Login", activebackground = "#00B0F0",
                                   activeforeground="white", fg="white",
-                                  bg="orange", font=("Calibri", 15, 'bold'), command=self.loginOSHES)
+                                  bg="orange", font=("Calibri", 15, 'bold'), command=lambda:self.loginOSHES())
         self.loginButton.place(x=80, y=250, width=150)
 
 
         self.regButton = Button(self.frame, text = "Register", activebackground = "#00B0F0",
                                 activeforeground="white", fg="white", bg="orange",
-                                font=("Calibri", 15, 'bold'), command=toRegister)
+                                font=("Calibri", 15, 'bold'), command=self.toRegister)
         self.regButton.place(x=80, y=300, width=150)
 
         btn_admin = Button(self.frame, cursor="hand2", command=self.adminLogin, text="Admin Login", font=("Calibri", 12, "underline"), bg="#FFD1C1", bd=0, fg="red")
         btn_admin.place(x=50, y=350, width=150)
-
         
     def loginOSHES(self):
         if (self.entry1.get() == "" or self.entry2.get() == "") :
@@ -86,22 +82,37 @@ class Login:
                     messagebox.showerror("Error", "Invalid Username & Password", parent=self.root)
                 else:
                     messagebox.showinfo("Success", "Welcome to OSHES", parent=self.root)
-                    self.root.destroy()
-                    import Product
+                    cur.execute("select * from Customer where customerID =%s", (self.entry1.get(),))
+                    row = cur.fetchone()
+                    f = open("store_custID.txt", "w")
+                    for t in row:
+                        f.write(''.join(str(s) for s in t) + "\n")
+                    f.close()
+                    return self.productLogin()
                 #con.close()
             except Exception as es:
                 messagebox.showerror("Error", f"Error due to: {str(es)}", parent=self.root)
 
+
+    def productLogin(self):
+        self.new_win = Toplevel(self.root)
+        self.new_Obj = NewProduct(self.new_win)
+
     def adminLogin(self):
+        self.new_win = Toplevel(self.root)
+        self.new_Obj = AdminLogin(self.new_win)
+
+
+    def toRegister(self):
         self.root.destroy()
-        import AdminLogin
+        import Register3
+
 
     #Forget Password: https://www.youtube.com/watch?v=2xzzLoDV0XY&list=PL4P8sY6zvjk6p9u8T2etiQm6EE_15QF0y&index=6&ab_channel=Webcode
-                
-    
 
-main = Login(root)
-root.mainloop()
-
+if __name__ =="__main__":
+    root=Tk()
+    main = Login(root)
+    root.mainloop()
 
         

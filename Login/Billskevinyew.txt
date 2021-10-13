@@ -1,0 +1,13 @@
+	 Welcome to OSHSE 
+
+ Customer ID : kevinyew
+ Customer Name : Kevin
+ Phone Number : 84985123
+ Address : NUS School of Computing
+ ====================================
+ Products		QTY		Price
+ ====================================
+ SmartHome1-Light		1		70
+ ------------------------------------
+ Total Bill : 		 SGD 70.0
+ ------------------------------------

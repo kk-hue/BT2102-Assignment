@@ -4,8 +4,8 @@ from tkinter import ttk, messagebox
 #import tkinter.messagebox as mb
 from PIL import ImageTk, Image
 import mysql.connector
+from AdminOverview import AdminOverview
 
-root=Tk()
 
 ##def toRegister():
 ##    root.destroy()
@@ -85,15 +85,20 @@ class AdminLogin:
                     messagebox.showerror("Error", "Invalid Username & Password", parent=self.root)
                 else:
                     messagebox.showinfo("Success", "Welcome to Administrator Dashboard", parent=self.root)
-                    self.root.destroy()
-                    import AdminDB
+
+                    return self.administratorLogin()
                 #con.close()
             except Exception as es:
                 messagebox.showerror("Error", f"Error due to: {str(es)}", parent=self.root)
 
     #Forget Password: https://www.youtube.com/watch?v=2xzzLoDV0XY&list=PL4P8sY6zvjk6p9u8T2etiQm6EE_15QF0y&index=6&ab_channel=Webcode
                 
-    
+    def administratorLogin(self):
+        self.new_win = Toplevel(self.root)
+        self.new_Obj = AdminOverview(self.new_win)
 
-main = AdminLogin(root)
-root.mainloop()
+if __name__ =="__main__":
+    root=Tk()
+    main = AdminLogin(root)
+    root.mainloop()
+
