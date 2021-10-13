@@ -117,15 +117,21 @@ class Request_Payment:
         self.productID.set(row4[0])
         print(self.productID.get())
 
-        cur.execute("select cost from product where productID = %s", (self.productID.get(),))
+        cur.execute("select cost,warrantyDuration from product where productID = %s", (self.productID.get(),))
         row5 = cur.fetchone()
+        self.warrantyDuration.set(row5[1])
+        splitHolder = self.warrantyDuration.get().split(" ")
+        self.warrantyDuration = splitHolder[0]
         # get price
+        print(splitHolder)
+        print(self.warrantyDuration)
         print(row5)
 
         # UPDATES WARRANTYTILL
-        self.warrantyTill = datetime.strptime(self.purchaseDate.get(), '%Y-%m-%d').date()#%m/%d/%Y
-        self.warrantyTill = self.warrantyTill + timedelta(days=180)
-        self.purchaseDateWarranty.set(self.warrantyTill.strftime('%Y-%m-%d'))#%d/%m/%Y
+        self.warrantyTill = datetime.strptime(self.purchaseDate.get(), '%m/%d/%Y').date()
+        #30days in a month
+        self.warrantyTill = self.warrantyTill + timedelta(days=int(self.warrantyDuration) * 30)
+        self.purchaseDateWarranty.set(self.warrantyTill.strftime('%d/%m/%Y'))
 
         print("date.compare")
         print(date.today() < self.warrantyTill)
