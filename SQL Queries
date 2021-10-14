@@ -1,10 +1,15 @@
 #Inventory level 
-SELECT category, productModel, (SELECT COUNT(*)
-				FROM item 
-				WHERE purchaseStatus = "Unsold") 
-                                AS inventoryLevel
-FROM product 
-GROUP BY category, productModel; 
+SELECT productID, (SELECT COUNT(*)
+		   FROM item i
+		   WHERE i.productID = p.productID AND purchaseStatus = "Sold") 
+		   AS NumberofSoldItems, 
+                   (SELECT COUNT(*)
+                   FROM item i 
+                   WHERE i.productID = p.productID AND purchaseStatus = "Unsold") 
+                   AS NumberofUnsoldItems
+FROM product p
+GROUP BY productID; 
+
 
 
 
