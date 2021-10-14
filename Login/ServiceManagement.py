@@ -5,7 +5,9 @@ from tkinter import ttk, messagebox
 from PIL import ImageTk, Image
 import mysql.connector
 
-#root=Tk()
+root = Tk()
+
+
 class ServiceManagement:
 
     def __init__(self, root):
@@ -20,12 +22,18 @@ class ServiceManagement:
 
         # =====All Variables=======
 
+        f = open("store_adminID.txt", "r")
+        profile_details = []
+        for line in f:
+            profile_details.append(line.rstrip())
+
         self.itemID = StringVar()
         self.requestID = StringVar()
         self.requestStatus = StringVar()
         self.serviceStatus = StringVar()
         self.customerID = StringVar()
         self.administratorID = StringVar()
+        self.administratorID.set(profile_details[0])
 
         self.search_by=StringVar()
         self.search_txt=StringVar()
@@ -54,7 +62,7 @@ class ServiceManagement:
 
         adminID = Label(db_frame, text="Administrator ID", bg="crimson", fg="white", font=("calibri", 12, "bold"))
         adminID.grid(row=3, column=0, pady=10, padx=10, sticky="w")
-        txt_admin = Entry(db_frame, bd=5, textvariable=self.administratorID, relief=GROOVE, bg="white", fg="black",
+        txt_admin = Entry(db_frame, bd=5, textvariable=self.administratorID, state="readonly", relief=GROOVE, bg="white", fg="black",
                        font=("calibri", 12, "bold"))
         txt_admin.grid(row=3, column=1, pady=10, padx=10, sticky="w")
 
@@ -62,9 +70,10 @@ class ServiceManagement:
         reqbutton = Frame(db_frame, bd=4, relief=RIDGE, bg="crimson")
         reqbutton.place(x=15, y=500, width=420)
 
-        serveBtn = Button(reqbutton, text="Serve", width=10, command=self.Serve).grid(row=0, column=1, padx=30, pady=10)
-        completeBtn = Button(reqbutton, text="Complete", width=10, command=self.Complete).grid(row=0, column=2, padx=30, pady=10)
-        exitBtn = Button(reqbutton, text="Exit", width=10, command=self.Exit).grid(row=0, column=3, padx=30, pady=10)
+        serveBtn = Button(reqbutton, text="Serve", width=10, command=self.Serve).grid(row=0, column=1, padx=10, pady=10)
+        completeBtn = Button(reqbutton, text="Complete", width=10, command=self.Complete).grid(row=0, column=2, padx=10, pady=10)
+        backBtn = Button(reqbutton, text="Back", width=10, command=self.Back).grid(row=0, column=3, padx=10, pady=10)
+        exitBtn = Button(reqbutton, text="Exit", width=10, command=self.Exit).grid(row=0, column=4, padx=10, pady=10)
 
         # ======Detail Frame=======
 
@@ -197,10 +206,11 @@ class ServiceManagement:
             con.commit()
         con.close()
 
+    def Back(self):
+        import RequestManagement
+
     def Exit(self):
         root.destroy()
 
-if __name__ =="__main__":
-    root=Tk()
-    main = ServiceManagement(root)
-    root.mainloop()
+main = ServiceManagement(root)
+root.mainloop()

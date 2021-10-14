@@ -22,16 +22,24 @@ class RequestManagement:
         title.pack(side=TOP, fill=X)
 
         # =====All Variables=======
+        f = open("store_adminID.txt", "r")
+        profile_details = []
+        for line in f:
+            profile_details.append(line.rstrip())
 
         self.requestID = StringVar()
         self.requestStatus = StringVar()
         self.requestDate = StringVar()
         self.customerID = StringVar()
         self.administratorID = StringVar()
+        self.administratorID.set(profile_details[0])
         self.itemID = StringVar()
 
         self.search_by=StringVar()
         self.search_txt=StringVar()
+
+
+
 
         # ======Manage Frame=======
 
@@ -60,9 +68,16 @@ class RequestManagement:
         adminID = Label(db_frame, text="Administrator ID", bg="crimson", fg="white", font=("calibri", 12, "bold"))
         adminID.grid(row=3, column=0, pady=10, padx=10, sticky="w")
 
-        txt_admin = Entry(db_frame, bd=5, textvariable=self.administratorID, relief=GROOVE, bg="white", fg="black",
+        txt_admin = Entry(db_frame, bd=5, textvariable=self.administratorID, state="readonly", relief=GROOVE, bg="white", fg="black",
                        font=("calibri", 12, "bold"))
         txt_admin.grid(row=3, column=1, pady=10, padx=10, sticky="w")
+
+        status = Label(db_frame, text="Request Status", bg="crimson", fg="white", font=("calibri", 12, "bold"))
+        status.grid(row=4, column=0, pady=10, padx=10, sticky="w")
+
+        txt_status = Entry(db_frame, bd=5, textvariable=self.requestStatus, relief=GROOVE, bg="white", fg="black",
+                       font=("calibri", 12, "bold"))
+        txt_status.grid(row=4, column=1, pady=10, padx=10, sticky="w")
 
         # ======Button Frame for Request=========
         reqbutton = Frame(db_frame, bd=4, relief=RIDGE, bg="crimson")
@@ -153,25 +168,28 @@ class RequestManagement:
 
 #some problems with update the status in approval
     def ApproveRequest(self):
-        con = mysql.connector.connect(host="localhost", user="root", password="s63127734", database="oshes")
-        cur = con.cursor()
-        cur.execute("update Request set requestStatus= 'Approved' where requestID = %s ", (
-            self.requestID.get(),
-            ))
-        cur.execute("update Item set serviceStatus='In progress' where itemID = %s ", (
-            self.itemID.get(),
-            ))
-        cur.execute("update Request set administratorID = %s where requestID = %s ", (
-            self.administratorID.get(),
-            self.requestID.get()
-            ))
-        #GET TODAYS DATE AFTER APPROVAL
-        cur.execute("update Request SET requestDate = %s where requestID = %s ",
-                     str(date.today()), self.requestID.get())
-        con.commit()
-        self.fetch_data()
-        self.clear()
-        con.close()
+        if ((self.requestStatus.get() == 'Submitted') | (self.requestStatus.get() == 'In progress')):
+            con = mysql.connector.connect(host="localhost", user="root", password="s63127734", database="oshes")
+            cur = con.cursor()
+            cur.execute("update Request set requestStatus= 'Approved' where requestID = %s ", (
+                self.requestID.get(),
+                ))
+            cur.execute("update Item set serviceStatus='In progress' where itemID = %s ", (
+                self.itemID.get(),
+                ))
+            cur.execute("update Request set administratorID = %s where requestID = %s ", (
+                self.administratorID.get(),
+                self.requestID.get()
+                ))
+            #GET TODAYS DATE AFTER APPROVAL
+            cur.execute("update Request SET requestDate = %s where requestID = %s ",
+                         str(date.today()), self.requestID.get())
+            con.commit()
+            self.fetch_data()
+            self.clear()
+            con.close()
+        else:
+            messagebox.showerror("Error", "Cannot approve this request!", parent=self.root)
 
     def clear(self):
         self.requestID.set("")
@@ -204,4 +222,3 @@ if __name__ =="__main__":
     root=Tk()
     main = RequestManagement(root)
     root.mainloop()
-
