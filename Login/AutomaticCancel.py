@@ -36,7 +36,7 @@ class AutomaticCancel:
             .grid(row=0, column=3, padx=6, pady=10)
 
     def cancel_request(self):
-        con = mysql.connector.connect(host="localhost", user="root", password="ddcc1314520!", database="oshes")
+        con = mysql.connector.connect(host="localhost", user="root", password="ddcc!", database="oshes")
         cur = con.cursor()
         cur.execute("update Item as i "
                     "right join Request as r on i.itemID = r.itemID "
