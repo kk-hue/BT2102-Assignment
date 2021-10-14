@@ -27,6 +27,7 @@ class MySQLInitialization:
                                                   "productModel VARCHAR(10) NOT NULL," +
                                                   "category VARCHAR(6) NOT NULL," +
                                                   "price VARCHAR(30) NOT NULL," +
+                                                  "cost VARCHAR(30) NOT NULL," +
                                                   "warrantyDuration VARCHAR(30) NOT NULL," +
                                                   "PRIMARY KEY(productID))")
             cur2 = con.cursor()

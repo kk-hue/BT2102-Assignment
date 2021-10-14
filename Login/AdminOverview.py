@@ -11,6 +11,7 @@ from ServiceManagement import ServiceManagement
 from AdminUnpaid import AdminSearchCustomers
 from AdminRegister import AdminRegister
 from ProductTable import DisplayProduct
+from Import import Import
 
 class AdminOverview:
 
@@ -68,7 +69,7 @@ class AdminOverview:
         btn_Sales.pack(side=TOP, fill=X)
 
         btn_Import = Button(leftmenu, text="Import", font=("Times New Roman", 20, "bold"), bg="white", bd=3,
-                           cursor="hand2", command=self.sales)
+                           cursor="hand2", command=self.importData)
         btn_Import.pack(side=TOP, fill=X)
 
         btn_Initialisation = Button(leftmenu, text="Initialisation", font=("Times New Roman", 20, "bold"), bg="white", bd=3,
@@ -82,7 +83,7 @@ class AdminOverview:
                                font=("goudy old style", 20, "bold"), bd=5)
         self.lbl_product.place(x=400,y=200, height=150,width=300)
 
-        self.lbl_item = Label(self.root, text="Total Item\n[ 2001 ]", bg="#ff5722", fg="white",
+        self.lbl_item = Label(self.root, text="Total Item\n[ 1001 ]", bg="#ff5722", fg="white",
                                  font=("goudy old style", 20, "bold"), bd=5)
         self.lbl_item.place(x=850, y=200, height=150, width=300)
 
@@ -139,6 +140,11 @@ class AdminOverview:
     def sales(self):
         self.new_win = Toplevel(self.root)
         self.new_obj = DisplayProduct(self.new_win)
+
+    def importData(self):
+        self.new_win = Toplevel(self.root)
+        self.new_obj = Import(self.new_win)
+
 
     def initialisation(self):
         import MySQLInitialization

@@ -901,7 +901,6 @@ class Bill_App:
         op = messagebox.askyesno("Exit", "Do You Really Want to Exit")
         if op > 0:
             self.root.destroy()
-            import Product
 
 if __name__ =="__main__":
     root=Tk()
