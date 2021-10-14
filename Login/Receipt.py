@@ -34,14 +34,15 @@ class Bill_App:
         self.l_color3 = StringVar()
         self.l_color3.set(colorOpt[0])
 
+        colorOpt1 = ["White", "Black"]
         self.l_safe1 = StringVar()
-        self.l_safe1.set(colorOpt[0])
+        self.l_safe1.set(colorOpt1[0])
         self.l_safe2 = StringVar()
-        self.l_safe2.set(colorOpt[0])
+        self.l_safe2.set(colorOpt1[0])
         self.l_safe3 = StringVar()
-        self.l_safe3.set(colorOpt[0])
+        self.l_safe3.set(colorOpt1[0])
         self.l_safe4 = StringVar()
-        self.l_safe4.set(colorOpt[0])
+        self.l_safe4.set(colorOpt1[0])
 
 
         # ================Total Product Price variables==========================
@@ -143,10 +144,7 @@ class Bill_App:
         c_bill_txt = Entry(F1, width=25, textvariable=self.address, font="arial 12", bd=7, relief=SUNKEN, state="readonly").grid(
             row=0, column=7, pady=5, padx=10)
 
-        bill_btn = Button(F1, text="Search", command=self.find_bill, width=10, bd=7, font="arial 12").grid(row=0,
-                                                                                                           column=8,
-                                                                                                           padx=6,
-                                                                                                           pady=3)
+        #bill_btn = Button(F1, text="Search", command=self.find_bill, width=10, bd=7, font="arial 12").grid(row=0,column=8,padx=6,pady=3)
 
         # ===========LIGHT CATEGORY=========
         bg_color2 = "white"
@@ -279,7 +277,7 @@ class Bill_App:
                             relief=SUNKEN).place(x=120, y=70, width=40, height=40)
         safe1_txt = Label(F2, width=10, text="100", font=("times new roman", 14, "bold"), bd=5,
                           relief=SUNKEN).place(x=380, y=70, width=60, height=40)
-        safe1_color = OptionMenu(F2, self.l_safe1, *colorOpt).place(x=190, y=70)
+        safe1_color = OptionMenu(F2, self.l_safe1, *colorOpt1).place(x=190, y=70)
         safe1_power = ttk.Combobox(F2, font=("calibri", 10), state='readonly', justify=CENTER, textvariable=self.powsafe1)
         safe1_power.place(x=290, y=75, width=60)
         safe1_power['values'] = "Battery"
@@ -291,7 +289,7 @@ class Bill_App:
                             relief=SUNKEN).place(x=120, y=140, width=40, height=40)
         safe2_txt = Label(F2, width=10, text="120", font=("times new roman", 14, "bold"), bd=5,
                           relief=SUNKEN).place(x=380, y=140, width=60, height=40)
-        safe2_color = OptionMenu(F2, self.l_safe2, *colorOpt).place(x=190, y=140)
+        safe2_color = OptionMenu(F2, self.l_safe2, *colorOpt1).place(x=190, y=140)
         safe2_power = ttk.Combobox(F2, font=("calibri", 10), state='readonly', justify=CENTER, textvariable=self.powsafe2)
         safe2_power.place(x=290, y=145, width=60)
         safe2_power['values'] = "Battery"
@@ -303,19 +301,19 @@ class Bill_App:
                             relief=SUNKEN).place(x=120, y=210, width=40, height=40)
         safe3_txt = Label(F2, width=10, text="125", font=("times new roman", 14, "bold"), bd=5,
                           relief=SUNKEN).place(x=380, y=210, width=60, height=40)
-        safe3_color = OptionMenu(F2, self.l_safe3, *colorOpt).place(x=190, y=210)
+        safe3_color = OptionMenu(F2, self.l_safe3, *colorOpt1).place(x=190, y=210)
         safe3_power = ttk.Combobox(F2, font=("calibri", 10), state='readonly', justify=CENTER, textvariable=self.powsafe3)
         safe3_power.place(x=290, y=215, width=60)
         safe3_power['values'] = "Battery"
         safe3_power.current(0)
 
-        safe4_lbl = Label(F2, text="Safe3", font=("times new roman", 12, "bold"), bg=bg_color2,
+        safe4_lbl = Label(F2, text="SmartHome1", font=("times new roman", 12, "bold"), bg=bg_color2,
                           fg=bg_color).place(x=10, y=280)
         safe4_entry = Entry(F2, width=10, textvariable=self.safesmart, font=("times new roman", 14, "bold"), bd=5,
                             relief=SUNKEN).place(x=120, y=280, width=40, height=40)
         safe4_txt = Label(F2, width=10, text="200", font=("times new roman", 14, "bold"), bd=5,
                           relief=SUNKEN).place(x=380, y=280, width=60, height=40)
-        safe4_color = OptionMenu(F2, self.l_safe4, *colorOpt).place(x=190, y=280)
+        safe4_color = OptionMenu(F2, self.l_safe4, *colorOpt1).place(x=190, y=280)
         safe4_power = ttk.Combobox(F2, font=("calibri", 10), state='readonly', justify=CENTER, textvariable=self.powsafe4)
         safe4_power.place(x=290, y=285, width=60)
         safe4_power['values'] = "Battery"
@@ -441,7 +439,10 @@ class Bill_App:
         con = mysql.connector.connect(host="localhost", user="root", password="s63127734", database="oshes")
         cur = con.cursor()
 
-        if self.light1.get() == 1:
+        if self.light1.get() == 0:
+            print()
+
+        elif self.light1.get() == 1:
             cur.execute("UPDATE Item SET customerID = %s, purchaseStatus = %s, "
                         "dateOfPurchase = %s WHERE purchaseStatus = %s and color = %s and "
                         "powerSupply = %s and productID = %s ORDER BY itemID DESC LIMIT 1",
@@ -456,7 +457,6 @@ class Bill_App:
             print(row)
             con.commit()
 
-
         elif self.light1.get() == 2:
             cur.execute(
                 "UPDATE Item SET customerID = %s, purchaseStatus = %s, "
@@ -464,7 +464,7 @@ class Bill_App:
                         "powerSupply = %s and productID = %s ORDER BY itemID DESC LIMIT 2",
                 (self.customerID.get(),
                  self.soldStatus.get(),
-                 datetime.now() + timedelta(days=0),
+                 date.today(),
                  self.purchaseStatus.get(),
                  self.l_color1.get(),
                  self.powlight1.get(),
@@ -481,7 +481,7 @@ class Bill_App:
                 "powerSupply = %s and productID = %s ORDER BY itemID DESC LIMIT 3",
                 (self.customerID.get(),
                  self.soldStatus.get(),
-                 datetime.now() + timedelta(days=0),
+                 date.today(),
                  self.purchaseStatus.get(),
                  self.l_color1.get(),
                  self.powlight1.get(),
@@ -496,7 +496,10 @@ class Bill_App:
             print(0)
 
         # =========================================================Light 2======================================================================
-        if self.light2.get() == 1:
+        if self.light2.get() == 0:
+            print()
+
+        elif self.light2.get() == 1:
             cur.execute(
                 "UPDATE Item SET customerID = %s, purchaseStatus = %s, "
                 "dateOfPurchase = %s WHERE purchaseStatus = %s and color = %s and "
@@ -519,7 +522,7 @@ class Bill_App:
                 "powerSupply = %s and productID = %s ORDER BY itemID DESC LIMIT 2",
                 (self.customerID.get(),
                  self.soldStatus.get(),
-                 datetime.now() + timedelta(days=0),
+                 date.today(),
                  self.purchaseStatus.get(),
                  self.l_color2.get(),
                  self.powlight2.get(),
@@ -535,7 +538,7 @@ class Bill_App:
                 "powerSupply = %s and productID = %s ORDER BY itemID DESC LIMIT 3",
                 (self.customerID.get(),
                  self.soldStatus.get(),
-                 datetime.now() + timedelta(days=0),
+                 date.today(),
                  self.purchaseStatus.get(),
                  self.l_color2.get(),
                  self.powlight2.get(),
@@ -550,7 +553,10 @@ class Bill_App:
             print(0)
 
             # =========================================================Light 3======================================================================
-        if self.LightSmart.get() == 1:
+        if self.LightSmart.get() == 0:
+            print()
+
+        elif self.LightSmart.get() == 1:
             cur.execute(
                 "UPDATE Item SET customerID = %s, purchaseStatus = %s, "
                 "dateOfPurchase = %s WHERE purchaseStatus = %s and color = %s and "
@@ -604,15 +610,17 @@ class Bill_App:
             print(0)
 
         #===========================================================Safe =================================================================
+        if self.Safe1.get() == 0:
+            print()
 
-        if self.Safe1.get() == 1:
+        elif self.Safe1.get() == 1:
             cur.execute(
                 "UPDATE Item SET customerID = %s, purchaseStatus = %s, "
                 "dateOfPurchase = %s WHERE purchaseStatus = %s and color = %s and "
                 "powerSupply = %s and productID = %s ORDER BY itemID DESC LIMIT 1",
                 (self.customerID.get(),
                  self.soldStatus.get(),
-                 datetime.now() + timedelta(days=0),
+                 date.today(),
                  self.purchaseStatus.get(),
                  self.l_safe1.get(),
                  self.powsafe1.get(),
@@ -628,7 +636,7 @@ class Bill_App:
                 "powerSupply = %s and productID = %s ORDER BY itemID DESC LIMIT 2",
                 (self.customerID.get(),
                  self.soldStatus.get(),
-                 datetime.now() + timedelta(days=0),
+                 date.today(),
                  self.purchaseStatus.get(),
                  self.l_safe1.get(),
                  self.powsafe1.get(),
@@ -644,7 +652,7 @@ class Bill_App:
                 "powerSupply = %s and productID = %s ORDER BY itemID DESC LIMIT 3",
                 (self.customerID.get(),
                  self.soldStatus.get(),
-                 datetime.now() + timedelta(days=0),
+                 date.today(),
                  self.purchaseStatus.get(),
                  self.l_safe1.get(),
                  self.powsafe1.get(),
@@ -659,15 +667,17 @@ class Bill_App:
             print(0)
 
         #==============Safe 2 ======================
+        if self.Safe2.get() == 0:
+            print()
 
-        if self.Safe2.get() == 1:
+        elif self.Safe2.get() == 1:
             cur.execute(
                 "UPDATE Item SET customerID = %s, purchaseStatus = %s, "
                 "dateOfPurchase = %s WHERE purchaseStatus = %s and color = %s and "
                 "powerSupply = %s and productID = %s ORDER BY itemID DESC LIMIT 1",
                 (self.customerID.get(),
                  self.soldStatus.get(),
-                 datetime.now() + timedelta(days=0),
+                 date.today(),
                  self.purchaseStatus.get(),
                  self.l_safe2.get(),
                  self.powsafe2.get(),
@@ -683,7 +693,7 @@ class Bill_App:
                 "powerSupply = %s and productID = %s ORDER BY itemID DESC LIMIT 2",
                 (self.customerID.get(),
                  self.soldStatus.get(),
-                 datetime.now() + timedelta(days=0),
+                 date.today(),
                  self.purchaseStatus.get(),
                  self.l_safe2.get(),
                  self.powsafe2.get(),
@@ -699,7 +709,7 @@ class Bill_App:
                 "powerSupply = %s and productID = %s ORDER BY itemID DESC LIMIT 3",
                 (self.customerID.get(),
                  self.soldStatus.get(),
-                 datetime.now() + timedelta(days=0),
+                 date.today(),
                  self.purchaseStatus.get(),
                  self.l_safe2.get(),
                  self.powsafe2.get(),
@@ -714,14 +724,17 @@ class Bill_App:
             print(0)
 
         #=====================Safe 3 =========================
-        if self.Safe3.get() == 1:
+        if self.Safe3.get() == 0:
+            print()
+
+        elif self.Safe3.get() == 1:
             cur.execute(
                 "UPDATE Item SET customerID = %s, purchaseStatus = %s, "
                 "dateOfPurchase = %s WHERE purchaseStatus = %s and color = %s and "
                 "powerSupply = %s and productID = %s ORDER BY itemID DESC LIMIT 1",
                 (self.customerID.get(),
                  self.soldStatus.get(),
-                 datetime.now() + timedelta(days=0),
+                 date.today(),
                  self.purchaseStatus.get(),
                  self.l_safe3.get(),
                  self.powsafe3.get(),
@@ -737,7 +750,7 @@ class Bill_App:
                 "powerSupply = %s and productID = %s ORDER BY itemID DESC LIMIT 2",
                 (self.customerID.get(),
                  self.soldStatus.get(),
-                 datetime.now() + timedelta(days=0),
+                 date.today(),
                  self.purchaseStatus.get(),
                  self.l_safe3.get(),
                  self.powsafe3.get(),
@@ -753,7 +766,7 @@ class Bill_App:
                 "powerSupply = %s and productID = %s ORDER BY itemID DESC LIMIT 3",
                 (self.customerID.get(),
                  self.soldStatus.get(),
-                 datetime.now() + timedelta(days=0),
+                 date.today(),
                  self.purchaseStatus.get(),
                  self.l_safe3.get(),
                  self.powsafe3.get(),
@@ -768,14 +781,17 @@ class Bill_App:
             print(0)
 
         #======================= Safe 4 =========================
-        if self.safesmart.get() == 1:
+        if self.safesmart.get() == 0:
+            print()
+
+        elif self.safesmart.get() == 1:
             cur.execute(
                 "UPDATE Item SET customerID = %s, purchaseStatus = %s, "
                 "dateOfPurchase = %s WHERE purchaseStatus = %s and color = %s and "
                 "powerSupply = %s and productID = %s ORDER BY itemID DESC LIMIT 1",
                 (self.customerID.get(),
                  self.soldStatus.get(),
-                 datetime.now() + timedelta(days=0),
+                 date.today(),
                  self.purchaseStatus.get(),
                  self.l_safe4.get(),
                  self.powsafe4.get(),
@@ -791,7 +807,7 @@ class Bill_App:
                 "powerSupply = %s and productID = %s ORDER BY itemID DESC LIMIT 2",
                 (self.customerID.get(),
                  self.soldStatus.get(),
-                 datetime.now() + timedelta(days=0),
+                 date.today(),
                  self.purchaseStatus.get(),
                  self.l_safe4.get(),
                  self.powsafe4.get(),
@@ -807,7 +823,7 @@ class Bill_App:
                 "powerSupply = %s and productID = %s ORDER BY itemID DESC LIMIT 3",
                 (self.customerID.get(),
                  self.soldStatus.get(),
-                 datetime.now() + timedelta(days=0),
+                 date.today(),
                  self.purchaseStatus.get(),
                  self.l_safe4.get(),
                  self.powsafe4.get(),

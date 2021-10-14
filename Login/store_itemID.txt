@@ -1,11 +1,11 @@
-1495
+1978
 Sold
-Malaysia
-2019
-Yellow
+China
+2016
+Black
 Battery
-In progress
 NULL
-3
-kevinyew
-2021-10-13
+NULL
+5
+cust2
+2021-10-15

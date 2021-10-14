@@ -9,6 +9,7 @@ class Payment_Page:
         self.root = root
         self.root.geometry("1320x700+0+0")
         self.root.title("Billing Software")
+        self.root.resizable(False, False)
         bg_color = "white"
         title = Label(self.root, text="REQUEST SUBMISSION & PAYMENT", bd=15, bg="black", fg="white",
                       font=("times new roman", 30, "bold"), pady=2).pack(fill=X)
@@ -19,23 +20,27 @@ class Payment_Page:
         self.cvv = StringVar()
         self.paymentID = StringVar()
         self.customerID = StringVar()
-        self.amtPayable = StringVar()
+        self.amtPayable = IntVar()
         self.customerID = StringVar()
         self.todayDate = date.today()
         self.administratorID = StringVar()
         self.itemID = StringVar()
         self.requestID = StringVar(0)
+        self.materialFee = IntVar()
 
         f = open("store_custanditemID", "r")
         print(f)
         profile_details = []
         for line in f:
             profile_details.append(line.rstrip())
+            print(line)
         self.itemID.set(profile_details[0])
         self.customerID.set(profile_details[1])
         self.administratorID.set(profile_details[2])
         self.amtPayable.set(profile_details[3])
         self.requestID.set(profile_details[4])
+        self.materialFee.set(profile_details[5])
+
 
         self.paymentID.set("Payment"+self.itemID.get()) #have to update system ( updated below )
 
@@ -80,8 +85,19 @@ class Payment_Page:
         cur = con.cursor()
         print(1)
         print(self.paymentID.get())
-        cur.execute("INSERT INTO payment VALUES (%s, %s, %s, %s)",(self.paymentID.get(),  str(date.today()), self.amtPayable.get(), self.customerID.get()))
-        cur.execute("UPDATE servicefee SET paymentID = " + self.paymentID.get() + " WHERE requestID = %s", (self.requestID.get()))
+        print(self.amtPayable.get())
+        cur.execute("UPDATE request SET requestStatus = 'In progress' WHERE requestID = %s", (self.requestID.get(),))
+        cur.execute("INSERT INTO payment VALUES (%s, %s, %s, %s)",
+                    (self.paymentID.get(),  str(date.today()), self.amtPayable.get(), self.customerID.get()))
+
+       # cur.execute("UPDATE servicefee SET paymentID = " + self.paymentID.get() + " WHERE requestID = %s", (self.requestID.get()))
+        cur.execute("UPDATE servicefee SET paymentID = %s WHERE requestID = %s", (self.paymentID.get(), self.requestID.get()))
+
+        cur.execute("UPDATE servicefee SET flatFee = '40', materialFee = %s WHERE requestID = %s",
+                    (self.materialFee.get(), self.requestID.get()))
+
+
+        #cur.execute("UPDATE payment SET paymentID = %s WHERE requestID = %s", (self.paymentID.get(), self.requestID.get()))
 
         print(2)
         con.commit()

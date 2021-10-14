@@ -8,7 +8,6 @@ from Profile import Profile
 from Receipt import Bill_App
 from CustomerSearchProduct import CustomerSearchProduct
 from CustomerLog import HISTORY_App
-from ReqPayment import Request_Payment
 
 class NewProduct:
 
@@ -17,7 +16,7 @@ class NewProduct:
         self.root = root
         self.root.geometry("1800x1000+0+0")
         self.root.title("Product Catalogue")
-        self.root.config(bg="white")
+        self.root.config(bg="azure")
 
         #title
         title = Label(self.root, text="Product Catalogue",
@@ -49,26 +48,26 @@ class NewProduct:
         btn_purchase.place(y=390, height=152, width=200)
 
         btn_request = Button(leftmenu, text="Request", font=("Times New Roman", 20, "bold"), bg="white", bd=3,
-                             cursor="hand2", command=self.request)
+                             cursor="hand2")
         btn_request.place(y=540, height=152, width=200)
 
         btn_service = Button(leftmenu, text="History", font=("Times New Roman", 20, "bold"), bg="white", bd=3,
                              cursor="hand2", command=self.history)
-        btn_service.place(y=690, height=160, width=200)
+        btn_service.place(y=540, height=152, width=200)
 
         #Content
 
         #===========Text Description===========
         self.desc1 = Label(self.root, text="Products that are suitable for you. \n"
                                            "We provide lights and security for you.",
-                           bg="#607d8b", fg="white",
+                           bg="azure", fg="black",
                            font=("goudy old style", 16, "bold")
                            )
         self.desc1.place(x=880, y=250)
 
         self.desc2 = Label(self.root, text="Come and browse for our products. \n"
                                            "We will ensure you that we are the best!",
-                           bg="#607d8b", fg="white",
+                           bg="azure", fg="black",
                            font=("goudy old style", 16, "bold")
                            )
         self.desc2.place(x=880, y=780)
@@ -88,21 +87,21 @@ class NewProduct:
         self.img_Light1=Label(self.root, image=self.light1)
         self.img_Light1.place(x=400, y=200, height=200, width=400)
 
-        self.lbl_Light1 = Label(self.root, text="Light1", bg="#607d8b", fg="white",
+        self.lbl_Light1 = Label(self.root, text="Light1", bg="azure", fg="black",
                                 font=("goudy old style", 15, "bold"))
         self.lbl_Light1.place(x=570, y=410)
 
         self.img_Light2 = Label(self.root, image=self.light2)
         self.img_Light2.place(x=400, y=450, height=200, width=400)
 
-        self.lbl_Light1 = Label(self.root, text="Light2", bg="#607d8b", fg="white",
+        self.lbl_Light1 = Label(self.root, text="Light2", bg="azure", fg="black",
                                 font=("goudy old style", 15, "bold"))
         self.lbl_Light1.place(x=570, y=660)
 
         self.lbl_SmartHome1 = Label(self.root, image=self.smarthome1)
         self.lbl_SmartHome1.place(x=400, y=700, height=200, width=400)
 
-        self.lbl_SmartHome1 = Label(self.root, text="SmartHome1", bg="#009688", fg="white",
+        self.lbl_SmartHome1 = Label(self.root, text="SmartHome1", bg="azure", fg="black",
                                     font=("goudy old style", 15, "bold"))
         self.lbl_SmartHome1.place(x=540, y=910)
 
@@ -111,7 +110,7 @@ class NewProduct:
         self.img_SmartHome2 = Label(self.root, image=self.smarthome2)
         self.img_SmartHome2.place(x=850, y=450, height=200, width=400)
 
-        self.lbl_SmartHome1 = Label(self.root, text="SmartHome1 (Locks)", bg="#009688", fg="white",
+        self.lbl_SmartHome1 = Label(self.root, text="SmartHome1 (Locks)", bg="azure", fg="black",
                                     font=("goudy old style", 15, "bold"))
         self.lbl_SmartHome1.place(x=960, y=660)
 
@@ -120,21 +119,21 @@ class NewProduct:
         self.img_Safe1 = Label(self.root, image=self.safe1)
         self.img_Safe1.place(x=1300, y=200, height=200, width=400)
 
-        self.lbl_Safe1 = Label(self.root, text="Safe1", bg="#607d8b", fg="white",
+        self.lbl_Safe1 = Label(self.root, text="Safe1", bg="azure", fg="black",
                                 font=("goudy old style", 15, "bold"))
         self.lbl_Safe1.place(x=1470, y=410)
 
         self.img_Safe2 = Label(self.root, image=self.safe2)
         self.img_Safe2.place(x=1300, y=450, height=200, width=400)
 
-        self.lbl_Safe2 = Label(self.root, text="Safe2", bg="#607d8b", fg="white",
+        self.lbl_Safe2 = Label(self.root, text="Safe2", bg="azure", fg="black",
                                 font=("goudy old style", 15, "bold"))
         self.lbl_Safe2.place(x=1470, y=660)
 
         self.img_Safe3 = Label(self.root, image=self.safe3)
         self.img_Safe3.place(x=1300, y=700, height=200, width=400)
 
-        self.lbl_Safe3 = Label(self.root, text="Safe3", bg="#607d8b", fg="white",
+        self.lbl_Safe3 = Label(self.root, text="Safe3", bg="azure", fg="black",
                                 font=("goudy old style", 15, "bold"))
         self.lbl_Safe3.place(x=1470, y=910)
 #=============================================================================
@@ -154,10 +153,6 @@ class NewProduct:
     def history(self):
         self.new_win = Toplevel(self.root)
         self.new_Obj = HISTORY_App(self.new_win)
-
-    def request(self):
-        self.new_win = Toplevel(self.root)
-        self.new_Obj = Request_Payment(self.new_win)
 
     def logout(self):
         self.root.destroy()

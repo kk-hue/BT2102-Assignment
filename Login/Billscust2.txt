@@ -1,14 +1,14 @@
 	 Welcome to OSHSE 
 
- Customer ID : kevinyew
- Customer Name : Kevin
- Phone Number : 84985123
- Address : NUS School of Computing
+ Customer ID : cust2
+ Customer Name : cust2
+ Phone Number : 89871233
+ Address : NUS
  ====================================
  Products		QTY		Price
  ====================================
- SmartHome1-Light		1		70
- Safe2		1		120
+ Light1		1		50
+ Safe2		2		240
  ------------------------------------
- Total Bill : 		 SGD 190.0
+ Total Bill : 		 SGD 290.0
  ------------------------------------

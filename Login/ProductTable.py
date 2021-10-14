@@ -1,8 +1,7 @@
 from tkinter import *
 from tkinter import ttk, messagebox
+from PIL import ImageTk, Image
 import mysql.connector
-
-root = Tk()
 
 
 class DisplayProduct:
@@ -13,30 +12,33 @@ class DisplayProduct:
         self.root.title("Product Display Table")
         self.root.geometry("1350x700+0+0")
         self.root.resizable(False, False)
+        self.root.config(bg="azure")
 
-        title = Label(self.root, text="Product Display Table", font=("calibri", 40, "bold"), bg="light blue", fg="white")
+        title = Label(self.root, text="Sales Level for Different Products", font=("calibri", 40, "bold"), bg="dodger blue", fg="black")
         title.pack(side=TOP, fill=X)
 
         # ======Manage Frame=======
-
-        db_frame = Frame(self.root, bd=4, relief=RIDGE, bg="crimson")
+        self.light1 = ImageTk.PhotoImage(file="/Login/sales1.jpg")
+        db_frame = Frame(self.root, bd=4, relief=RIDGE, bg="goldenrod1")
         db_frame.place(x=20, y=100, width=450, height=560)
 
-        db_title = Label(db_frame, text="Product Display Table", bg="crimson", fg="white", font=("calibri", 25, "bold"))
+        db_title = Label(db_frame, text="Sales/Inventory Level", bg="goldenrod1", fg="black", font=("calibri", 22, "bold"))
+        db_image = Label(db_frame, image=self.light1).place(x=30, y=100, height=420, width=380)
         db_title.grid(row=0, columnspan=1, pady=20)
+
 
 
         # ======Detail Frame=======
 
-        self.detail_frame = Frame(self.root, bd=4, relief=RIDGE, bg="crimson")
+        self.detail_frame = Frame(self.root, bd=4, relief=RIDGE, bg="goldenrod1")
         self.detail_frame.place(x=500, y=100, width=800, height=560)
 
-        lable_productResult = Label(self.detail_frame, text="Product Display Table", bg="crimson", fg="white", font=("calibri", 20, "bold"))
+        lable_productResult = Label(self.detail_frame, text="Product Display Table", bg="goldenrod1", fg="black", font=("calibri", 20, "bold"))
         lable_productResult.grid(row=0, column=0, pady=20, padx=7, sticky="w")
 
         # ====== Table Frame ========
 
-        table_frame = Frame(self.detail_frame, bd=4, relief=RIDGE, bg="crimson")
+        table_frame = Frame(self.detail_frame, bd=4, relief=RIDGE, bg="goldenrod1")
         table_frame.place(x=10, y=70, width=760, height=480)
 
 
@@ -58,7 +60,7 @@ class DisplayProduct:
     def display_product(self):
         try:
             productIDlist = self.productID_list()
-            con = mysql.connector.connect(host="localhost", user="root", password="sxbl15302", database="oshes")
+            con = mysql.connector.connect(host="localhost", user="root", password="s63127734", database="oshes")
             result_list = []
             for productID in productIDlist:
                 cur = con.cursor()
@@ -81,12 +83,14 @@ class DisplayProduct:
             messagebox.showerror("Error", f"Error due to: {str(es)}", parent=self.root)
 
     def productID_list(self):
-        con = mysql.connector.connect(host="localhost", user="root", password="sxbl15302", database="oshes")
+        con = mysql.connector.connect(host="localhost", user="root", password="s63127734", database="oshes")
         cur = con.cursor()
         cur.execute("select productID from Product")
         rows = cur.fetchall()
         con.close()
         return rows
 
-main = DisplayProduct(root)
-root.mainloop()
+if __name__ =="__main__":
+    root=Tk()
+    main = DisplayProduct(root)
+    root.mainloop()

@@ -14,6 +14,7 @@ class HISTORY_App:
         self.root = root
         self.root.geometry("1320x700+0+0")
         self.root.title("History Software")
+        self.root.resizable(False, False)
         bg_color = "black"
         title = Label(self.root, text="CUSTOMER PURCHASE HISTORY", bd=15, bg="black", fg="white",
                       font=("times new roman", 30, "bold"), pady=2).pack(fill=X)
@@ -29,6 +30,8 @@ class HISTORY_App:
         self.modelID = StringVar()
         self.colour = StringVar()
         self.powerSupply = StringVar()
+
+
 
         #======================CUSTOMER DETAILS=========================
 
@@ -68,7 +71,7 @@ class HISTORY_App:
         scroll_x = Scrollbar(F5, orient=HORIZONTAL)
         scroll_y = Scrollbar(F5, orient=VERTICAL)
         self.product_table = ttk.Treeview(F5,
-                                          columns=("purchaseDate", "itemID", "productID", "colour", "price"),
+                                          columns=("purchaseDate", "itemID", "productID", "colour", "powerSupply"),
                                           xscrollcommand=scroll_x.set,
                                           yscrollcommand=scroll_y.set)
 
@@ -80,7 +83,7 @@ class HISTORY_App:
         self.product_table.heading("itemID", text="ItemID")
         self.product_table.heading("productID", text="Model")
         self.product_table.heading("colour", text="Colour")
-        self.product_table.heading("price", text="Price")
+        self.product_table.heading("powerSupply", text="Power Supply")
         #self.product_table.heading("cost", text="Cost")
         #self.product_table.heading("warrantyDuration", text="Warranty")
 
@@ -90,11 +93,12 @@ class HISTORY_App:
         self.product_table.column("itemID", width=100)
         self.product_table.column("productID", width=100)
         self.product_table.column("colour", width=100)
-        self.product_table.column("price", width=100)
+        self.product_table.column("powerSupply", width=100)
         #self.product_table.column("warrantyDuration", width=100)
 
         #     self.product_table.column("inventory",width=100)
         self.product_table.pack(fill=BOTH, expand=1)
+        ttk.Style().configure(F5, background = "#FF0FFF", rowheight = 40)
 
         self.product_table.bind("<ButtonRelease-1>", self.get_cursor)
 
@@ -103,10 +107,27 @@ class HISTORY_App:
         tkinter.ttk.Separator(F5, orient=VERTICAL).place(x=650, y=40, width=2, height=445)
         tkinter.ttk.Separator(F5, orient=VERTICAL).place(x=868, y=40, width=2, height=445)
 
+        con = mysql.connector.connect(host="localhost", user="root", password="s63127734", database="oshes")
+        cur = con.cursor()
+        cur.execute("select creationDate from servicefee where requestID =%s", (self.itemID.get(),))
+        row = cur.fetchone()
+        print(row)
+
+        if row == None:
+            print(1)
+        else:
+            if row + timedelta(days=10) < date.today():
+                cur.execute("UPDATE request SET requestStatus = 'Canceled' WHERE itemID = %s", (self.itemID.get(),))
+                cur.execute("UPDATE servicefee SET paymentID = '' WHERE requestID = %s", (self.itemID.get(),))
+
+        con.commit()
+        con.close()
+
     def get_cursor(self, ev):
         cursor_row = self.product_table.focus()
         contents = self.product_table.item(cursor_row)
         row = contents['values']
+        print(row)
         self.purchaseDate.set(row[0])
         self.itemID.set(row[1])
         self.modelID.set(row[2])
@@ -126,6 +147,25 @@ class HISTORY_App:
             for row in rows:
                 if row[9] == self.customerID.get():
                     holder = [row[10], row[0], row[8], row[4], row[5]]
+                    if row[8] == "1":  # 1410
+                        holder = [row[10], row[0], "Category: Light, Model: Light 1", row[4], row[5]]
+                    if row[8] == "2":  # 1410
+                        holder = [row[10], row[0], "Category: Light, Model: Light 2", row[4], row[5]]
+
+                    if row[8] == "3":  # 1410
+                        holder = [row[10], row[0], "Category: Light, Model: SmartHome1", row[4], row[5]]
+
+                    if row[8] == "4":  # 1410
+                        holder = [row[10], row[0], "Category: Safe, Model: Safe 1", row[4], row[5]]
+
+                    if row[8] == "5":  # 1410
+                        holder = [row[10], row[0], "Category: Safe, Model: Safe 2", row[4], row[5]]
+
+                    if row[8] == "6":  # 1410
+                        holder = [row[10], row[0], "Category: Safe, Model: Safe 3", row[4], row[5]]
+
+                    if row[8] == "7":  # 1410
+                        holder = [row[10], row[0], "Category: Safe, Model: SmartHome1", row[4], row[5]]
                     self.product_table.insert('', END, values=holder)
             con.commit()
         con.close()
@@ -153,8 +193,9 @@ class HISTORY_App:
                     except:
                         f.write(''.join(str(s) for s in t) + "\n")
             f.close()
-            self.new_window = Toplevel(self.root)
-            self.new_object = Request_Payment(self.new_window)
+
+        self.new_window = Toplevel(self.root)
+        self.new_object = Request_Payment(self.new_window)
 
 
 

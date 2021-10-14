@@ -163,7 +163,7 @@ class AdminSearchProduct:
         self.product_table.heading("Warranty (months)", text="Warranty (months)")
         self.product_table.heading("Inventory", text="Inventory")
         self.product_table.heading("Num of item sold", text="Num of item sold")
-        self.product_table.heading("Cost", text="Cost")
+        self.product_table.heading("Cost", text="Cost ($)")
 
         self.product_table['show'] = 'headings'
         self.product_table.column("Category", width=100)

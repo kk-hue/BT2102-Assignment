@@ -5,15 +5,6 @@ from tkinter import ttk, messagebox
 from PIL import ImageTk, Image
 import mysql.connector
 
-root=Tk()
-
-def backtoLogin():
-    root.destroy()
-    import Login
-
-
-#def db_connect(self):
- #       db = mdb.connect('localhost', 'root', '', 'oshes')
 
             
 class Register:
@@ -119,7 +110,7 @@ class Register:
         reg=Button(frame1, text="Register", font=("Cambria", 15, "bold"), fg="white", bg="orange",command=self.register_data)
         reg.place(x=50, y=420)
 
-        back=Button(frame1, text="Back", font=("Cambria", 15, "bold"), fg="white", bg="orange", command=backtoLogin)
+        back=Button(frame1, text="Back", font=("Cambria", 15, "bold"), fg="white", bg="orange", command=self.destroyRegister)
         back.place(x=150, y=420)
 
 
@@ -149,10 +140,13 @@ class Register:
                 messagebox.showinfo("Success", "Registration Successful", parent=self.root)
             except Exception as es:
                 messagebox.showerror("Error", f"Error due to: {str(es)}", parent=self.root)
+
+    def destroyRegister(self):
+        self.root.destroy()
             
 
-        
-
-main = Register(root)
-root.mainloop()
+if __name__ =="__main__":
+    root=Tk()
+    main = Register(root)
+    root.mainloop()
         

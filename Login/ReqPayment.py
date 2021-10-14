@@ -14,6 +14,7 @@ class Request_Payment:
         self.root = root
         self.root.geometry("1320x700+0+0")
         self.root.title("Billing Software")
+        self.root.resizable(False, False)
         bg_color = "black"
         title = Label(self.root, text="REQUEST SUBMISSION & PAYMENT", bd=15, bg="black", fg="white",
                       font=("times new roman", 30, "bold"), pady=2).pack(fill=X)
@@ -43,6 +44,10 @@ class Request_Payment:
         self.category = StringVar()
         self.paymentID = StringVar()
         self.productID = StringVar()
+        self.warrantyDuration = StringVar()
+        self.stillunderwarranty = BooleanVar()
+        self.paymentIDdisplay = StringVar()
+        self.holder = IntVar()
 
 
         f = open("store_itemID.txt", "r")
@@ -52,10 +57,25 @@ class Request_Payment:
         self.customerID.set(profile_details[9])
         self.itemID.set(profile_details[0])
         self.purchaseDate.set(profile_details[10])
-        self.category.set(profile_details[8])
+        if profile_details[8] == "1":  # 1410
+            self.category.set("Light 1")
+        if profile_details[8] == "2":  # 1410
+            self.category.set("Light 2")
+        if profile_details[8] == "3":  # 1410
+            self.category.set("SmartHome 1")
+        if profile_details[8] == "4":  # 1410
+            self.category.set("Safe 1")
+        if profile_details[8] == "5":  # 1410
+            self.category.set("Safe 2")
+        if profile_details[8] == "6":  # 1410
+            self.category.set("Safe 3")
+        if profile_details[8] == "7":  # 1410
+            self.category.set("SmartHome 1 (Safe)")
         self.colour.set(profile_details[4])
-        self.serviceStatus.set(profile_details[6])
-
+        if profile_details[6] == None:
+            self.serviceStatus.set("")
+        else:
+            self.serviceStatus.set(profile_details[6])
 
         #GET DATA FROM REQUEST THAT HAS BEEN MADE (UPDATES REQUESTSTATUS AND REQUESTID)
         #IF REQUEST DOES NOT EXIST, CLOSE TERMINAL
@@ -80,6 +100,7 @@ class Request_Payment:
         try:
             print("CHECKING FOR SERVICEFEE")
             self.paymentID.set(row2[0][1])
+            self.requestApprovalDate.set(row2[0][2])
         except:
             con.commit()
             con.close()
@@ -92,6 +113,7 @@ class Request_Payment:
         row3 = cur.fetchall()
         try:
             self.requestApprovalDate.set(row3[0][1])
+            self.paymentID.set(row3[0][0])
         except:
             con.commit()
             con.close()
@@ -128,25 +150,39 @@ class Request_Payment:
         print(row5)
 
         # UPDATES WARRANTYTILL
-        self.warrantyTill = datetime.strptime(self.purchaseDate.get(), '%m/%d/%Y').date()
-        #30days in a month
+        self.warrantyTill = datetime.strptime(self.purchaseDate.get(), "%Y-%m-%d").date()
+        # 30days in a month
         self.warrantyTill = self.warrantyTill + timedelta(days=int(self.warrantyDuration) * 30)
-        self.purchaseDateWarranty.set(self.warrantyTill.strftime('%d/%m/%Y'))
+        self.purchaseDateWarranty.set(self.warrantyTill.strftime("%Y-%m-%d"))
 
         print("date.compare")
         print(date.today() < self.warrantyTill)
+        print("WALAOAOOAOAOAOAOAOOA")
+        self.holder.set(int(row5[0]))
+        print(self.holder.get())
+        self.paymentIDdisplay.set("")
+        self.amtPayable.set(40 + float(self.holder.get() * 0.2))
 
-        if self.requestStatus.get() == "Approved" and date.today() > self.warrantyTill:
+        if self.requestStatus.get() == "Submitted and Waiting for payment":  # 1410
             self.flatFee.set(40)
             self.materialFee.set(int(row5[0]) * 0.2)
             self.amtPayable.set(40 + float(self.materialFee.get()))
+
         else:
             self.flatFee.set(0)
             self.materialFee.set(0)
             self.amtPayable.set(0)
 
+
+
         con.commit()
         con.close()
+
+        # if self.requestStatus.get() == "Submitted and Waiting for payment":
+        #     self.paymentIDdisplay.set("")
+        # else:
+
+        self.stillunderwarranty = date.today() < self.warrantyTill
 
 
 
@@ -199,7 +235,7 @@ class Request_Payment:
                          width=5, font="arial 14 bold").place(x=125, y=270, width=200, height=40)
 
 
-        light1_lbl = Label(F2, text="Category", font=("times new roman", 16, "bold"), bg=bg_color2,
+        light1_lbl = Label(F2, text="Model", font=("times new roman", 16, "bold"), bg=bg_color2,
                                fg=bg_color).place(x=15, y=30, width=100, height=40)
         light1_entry = Entry(F2, width=15, textvariable=self.category, font="arial 12", bd=7, relief=SUNKEN, state="readonly").place(x=120, y=30, width=120, height=40)
 
@@ -245,7 +281,7 @@ class Request_Payment:
         safe2_lbl = Label(F3, text="Please make payment within\n10 days of request approval date.", font=("times new roman", 12, "bold"), bg="orange",
                           fg=bg_color).place(x=100, y=190, width=280, height=40)
 
-        paymentID = Entry(F3, width=10, textvariable=self.paymentID, font=("times new roman", 14, "bold"), bd=5,
+        paymentID = Entry(F3, width=10, textvariable=self.paymentIDdisplay, font=("times new roman", 14, "bold"), bd=5,
                             relief=SUNKEN, state="readonly").place(x=140, y=230, width=200, height=40)
         makereq = Button(F3, text="Make Payment", command=self.make_payment, bg="cadetblue", fg="white", pady=15, bd=4,
                          width=5, font="arial 14 bold").place(x=140, y=270, width=200, height=40)
@@ -285,12 +321,17 @@ class Request_Payment:
             makeanotherreq = messagebox.askyesno("Confirmation", "Do you really want to make another request?")
             #find old request and update the request
             cur.execute("UPDATE request SET requestStatus = 'Submitted' WHERE requestID = %s", (self.itemID.get(),))
+            # f = open("store_reqID.txt", "w")
+            # count = 1
+            # f.write(count)
+            # f = open("store_reqID.txt", "r")
+            # f.read(count)
             self.requestID.set(self.itemID.get())
             self.requestStatus.set("Submitted")
             self.requestApprovalDate.set("")
-            self.serviceStatus.set("Not Applicable")
+            self.serviceStatus.set("")
             messagebox.showinfo("Notice",
-                                "Your previous has been submitted.\nPlease refer to the Request ID for any queries related to this request")
+                                "Your request has been submitted.\nPlease refer to the Request ID for any queries related to this request")
 
         #if there is already a request ongoing
         elif self.requestStatus.get() != "" and self.requestStatus.get() != "Canceled":
@@ -298,18 +339,38 @@ class Request_Payment:
 
         #if request does not exist, create request
         else:
-            self.requestID.set(self.itemID.get())
+            self.requestID.set(self.itemID.get())  # 1410, want to do auto incremental?
 
-            cur.execute("INSERT INTO Request VALUES (%s, 'Submitted', %s, %s, NULL, %s)", (self.itemID.get(), str(date.today()), self.customerID.get(), self.itemID.get()))
+            if self.stillunderwarranty == True:  # submitted as still under warrranty.
 
-            cur.execute("INSERT INTO servicefee VALUES (%s, 'Not Paid Yet', %s, %s, %s)", (self.requestID.get(), str(date.today()), self.flatFee.get(), self.materialFee.get()))
+                cur.execute("INSERT INTO Request VALUES (%s, 'Submitted', %s, %s, NULL, %s)",
+                            (self.itemID.get(), str(date.today()), self.customerID.get(), self.itemID.get()))
+            if self.stillunderwarranty == False:
 
-            self.requestStatus.set("Submitted")
+                self.requestStatus.set("Submitted and Waiting for payment")
+                cur.execute(
+                    "INSERT INTO Request VALUES (%s, 'Submitted and Waiting for payment', %s, %s, NULL, %s)",
+                    (self.itemID.get(), str(date.today()), self.customerID.get(), self.itemID.get()))
+                cur.execute("INSERT INTO servicefee VALUES (%s, %s, %s, %s, %s)",
+                            (self.requestID.get(), self.itemID.get(), str(date.today()), self.flatFee.get(), self.materialFee.get()))
+                self.flatFee.set(40)
+                self.materialFee.set(int(self.holder.get()) * 0.2)
+                print(self.holder.get())
+                print(self.materialFee.get())
+                self.amtPayable.set(40 + float(self.materialFee.get()))
             self.requestApprovalDate.set("")
-            self.serviceStatus.set("Not Applicable")
-            messagebox.showinfo("Notice", "Your previous has been submitted.\nPlease refer to the Request ID for any queries related to this request")
+            self.serviceStatus.set("")
+            messagebox.showinfo("Notice",
+                                "Your previous has been submitted.\nPlease refer to the Request ID for any queries related to this request")
         con.commit()
         con.close()
+
+
+
+
+
+
+
 
 
     def cancel_request(self):
@@ -318,6 +379,7 @@ class Request_Payment:
         if self.requestStatus.get() != "":
             answer = messagebox.askyesno("Confirmation", "Do you really want to cancel your request?")
             if answer > 0:
+                self.requestID.set("")
                 cur.execute("UPDATE request SET requestStatus = 'Canceled' WHERE itemID = %s", (self.itemID.get(),))
                 con.commit()
                 con.close()
@@ -343,25 +405,45 @@ class Request_Payment:
             rowholder.append(element)
         rowholder.append(self.amtPayable.get())
         rowholder.append(self.requestID.get())
+        rowholder.append(self.materialFee.get())
         print("HERE")
         print(rowholder)
-        if self.requestStatus.get() != "Approved":
-            messagebox.showinfo("Notice", "Your request has not been approved.")
+
+        if self.requestStatus.get() == "Submitted":  # 1410
+            messagebox.showinfo("Notice", "Item is under warranty.\nNo payment is needed.")  # 14/10
+
+        if self.requestStatus.get() == "In progress":  # 1410
+            messagebox.showinfo("Notice", "Payment has been made.")  # 14/10
+
+        if self.requestStatus.get() == "Submitted and Waiting for payment":  # 1410
+            return self.paymentpage()
+            #messagebox.showinfo("Notice", "Please make payment.")  # 14/10
+
         else:
             q = open("store_custanditemID", "w")
             for t in rowholder:
                 print(t)
                 if t == None:
                     q.write("NULL" + "\n")
+                elif type(t) == int:
+                    print("hello")
+                    print(t)
+                    q.write(str(t) + "\n")
                 else:
                     try:
                         q.write(''.join(str(s) for s in t.strftime("%Y-%m-%d")) + "\n") #%m/%d/%Y
                     except:
                         q.write(''.join(str(s) for s in t) + "\n")
-            q.close()
 
-            self.new_window = Toplevel(self.root)
-            self.new_object = Payment_Page(self.new_window)
+            #if self.paymentID.get() != "":
+
+        q.close()
+
+    def paymentpage(self):
+        self.new_window = Toplevel(self.root)
+        self.new_object = Payment_Page(self.new_window)
+
+
 
 if __name__ == "__main__":
     root = Tk()

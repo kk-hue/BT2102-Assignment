@@ -16,9 +16,10 @@ class RequestManagement:
         self.root = root
         self.root.title("Admin Request Management Dashboard")
         self.root.geometry("1350x700+0+0")
+        self.root.config(bg="ghost white")
         self.root.resizable(False, False)
 
-        title = Label(self.root, text="Request Management", font=("calibri", 40, "bold"), bg="light blue", fg="white")
+        title = Label(self.root, text="Request Management", font=("calibri", 40, "bold"), bg="coral", fg="white")
         title.pack(side=TOP, fill=X)
 
         # =====All Variables=======
@@ -38,60 +39,51 @@ class RequestManagement:
         self.search_by=StringVar()
         self.search_txt=StringVar()
 
-
-
-
         # ======Manage Frame=======
 
-        db_frame = Frame(self.root, bd=4, relief=RIDGE, bg="crimson")
+        db_frame = Frame(self.root, bd=4, relief=RIDGE, bg="skyblue2")
         db_frame.place(x=20, y=100, width=450, height=560)
 
-        db_title = Label(db_frame, text="Manage request", bg="crimson", fg="white", font=("calibri", 25, "bold"))
+        db_title = Label(db_frame, text="Manage request", bg="skyblue2", fg="white", font=("calibri", 25, "bold"))
         db_title.grid(row=0, columnspan=2, pady=20)
 
         # ======Manage request=========
 
-        requestID = Label(db_frame, text="Request ID", bg="crimson", fg="white", font=("calibri", 12, "bold"))
+        requestID = Label(db_frame, text="Request ID", bg="skyblue2", fg="white", font=("calibri", 12, "bold"))
         requestID.grid(row=1, column=0, pady=10, padx=10, sticky="w")
 
         txt_id = Entry(db_frame, bd=5, textvariable=self.requestID, relief=GROOVE, bg="white", fg="black",
                        font=("calibri", 12, "bold"))
         txt_id.grid(row=1, column=1, pady=10, padx=10, sticky="w")
 
-        iteID = Label(db_frame, text="Item ID", bg="crimson", fg="white", font=("calibri", 12, "bold"))
+        iteID = Label(db_frame, text="Item ID", bg="skyblue2", fg="white", font=("calibri", 12, "bold"))
         iteID.grid(row=2, column=0, pady=10, padx=10, sticky="w")
 
         txt_item = Entry(db_frame, bd=5, textvariable=self.itemID, relief=GROOVE, bg="white", fg="black",
                        font=("calibri", 12, "bold"))
         txt_item.grid(row=2, column=1, pady=10, padx=10, sticky="w")
 
-        adminID = Label(db_frame, text="Administrator ID", bg="crimson", fg="white", font=("calibri", 12, "bold"))
+        adminID = Label(db_frame, text="Administrator ID", bg="skyblue2", fg="white", font=("calibri", 12, "bold"))
         adminID.grid(row=3, column=0, pady=10, padx=10, sticky="w")
 
-        txt_admin = Entry(db_frame, bd=5, textvariable=self.administratorID, state="readonly", relief=GROOVE, bg="white", fg="black",
-                       font=("calibri", 12, "bold"))
+        txt_admin = Entry(db_frame, bd=5, textvariable=self.administratorID, state="readonly", relief=GROOVE,
+                          bg="white", fg="black",
+                          font=("calibri", 12, "bold"))
         txt_admin.grid(row=3, column=1, pady=10, padx=10, sticky="w")
 
-        status = Label(db_frame, text="Request Status", bg="crimson", fg="white", font=("calibri", 12, "bold"))
-        status.grid(row=4, column=0, pady=10, padx=10, sticky="w")
-
-        txt_status = Entry(db_frame, bd=5, textvariable=self.requestStatus, relief=GROOVE, bg="white", fg="black",
-                       font=("calibri", 12, "bold"))
-        txt_status.grid(row=4, column=1, pady=10, padx=10, sticky="w")
-
         # ======Button Frame for Request=========
-        reqbutton = Frame(db_frame, bd=4, relief=RIDGE, bg="crimson")
+        reqbutton = Frame(db_frame, bd=4, relief=RIDGE, bg="skyblue2")
         reqbutton.place(x=15, y=500, width=420)
 
         approveBtn = Button(reqbutton, text="Approve", width=20, command=self.ApproveRequest).grid(row=0, column=1, padx=20, pady=10)
-        serviceBtn = Button(reqbutton, text="Go to Service", width=20, command=self.GoToService).grid(row=0, column=2, padx=20, pady=10)
+        #serviceBtn = Button(reqbutton, text="Go to Service", width=20, command=self.GoToService).grid(row=0, column=2, padx=20, pady=10)
 
         # ======Detail Frame=======
 
-        detail_frame = Frame(self.root, bd=4, relief=RIDGE, bg="crimson")
+        detail_frame = Frame(self.root, bd=4, relief=RIDGE, bg="skyblue2")
         detail_frame.place(x=500, y=100, width=800, height=560)
 
-        lbl_search = Label(detail_frame, text="Search By", bg="crimson", fg="white", font=("calibri", 20, "bold"))
+        lbl_search = Label(detail_frame, text="Search By", bg="skyblue2", fg="white", font=("calibri", 20, "bold"))
         lbl_search.grid(row=0, column=0, pady=20, padx=7, sticky="w")
 
         combo_search = ttk.Combobox(detail_frame, textvariable=self.search_by, font=("calibri", 12, "bold"),
@@ -109,7 +101,7 @@ class RequestManagement:
                                                                                                    padx=6, pady=10)
         # ====== Table Frame ========
 
-        table_frame = Frame(detail_frame, bd=4, relief=RIDGE, bg="crimson")
+        table_frame = Frame(detail_frame, bd=4, relief=RIDGE, bg="skyblue2")
         table_frame.place(x=10, y=70, width=760, height=480)
 
         scroll_x = Scrollbar(table_frame, orient=HORIZONTAL)
@@ -196,7 +188,7 @@ class RequestManagement:
         self.requestStatus.set("")
         self.requestDate.set("")
         self.customerID.set("")
-        self.administratorID.set("")
+       # self.administratorID.set("")
         self.itemID.set("")
 
 #how to clear the search result
@@ -214,11 +206,8 @@ class RequestManagement:
             con.commit()
         con.close()
 
-    def GoToService(self):
-        root.destroy()
-        import ServiceManagement
-
 if __name__ =="__main__":
     root=Tk()
     main = RequestManagement(root)
     root.mainloop()
+

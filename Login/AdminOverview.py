@@ -9,6 +9,8 @@ from AdminSearchItem import AdminSearchItem
 from RequestManagement import RequestManagement
 from ServiceManagement import ServiceManagement
 from AdminUnpaid import AdminSearchCustomers
+from AdminRegister import AdminRegister
+from ProductTable import DisplayProduct
 
 class AdminOverview:
 
@@ -28,7 +30,7 @@ class AdminOverview:
 
         #Button Log Out
         btn_logout = Button(self.root, text="Logout", font=("Times New Roman", 15, "bold"),
-                          bg="yellow")
+                          bg="yellow", command=self.logout)
         btn_logout.place(x=1100, y=10, width=150, height=50)
 
         #Left Menu
@@ -57,6 +59,22 @@ class AdminOverview:
                               cursor="hand2", command=self.service)
         btn_Service.pack(side=TOP, fill=X)
 
+        btn_Register = Button(leftmenu, text="Register", font=("Times New Roman", 20, "bold"), bg="white", bd=3,
+                             cursor="hand2", command=self.register)
+        btn_Register.pack(side=TOP, fill=X)
+
+        btn_Sales = Button(leftmenu, text="Sales", font=("Times New Roman", 20, "bold"), bg="white", bd=3,
+                             cursor="hand2", command=self.sales)
+        btn_Sales.pack(side=TOP, fill=X)
+
+        btn_Import = Button(leftmenu, text="Import", font=("Times New Roman", 20, "bold"), bg="white", bd=3,
+                           cursor="hand2", command=self.sales)
+        btn_Import.pack(side=TOP, fill=X)
+
+        btn_Initialisation = Button(leftmenu, text="Initialisation", font=("Times New Roman", 20, "bold"), bg="white", bd=3,
+                           cursor="hand2", command=self.initialisation)
+        btn_Initialisation.pack(side=TOP, fill=X)
+
 
         #Content
 
@@ -75,7 +93,24 @@ class AdminOverview:
         self.lbl_customer = Label(self.root, text="Total Customer\n[ 0 ]", bg="#ffc107", fg="white",
                                  font=("goudy old style", 20, "bold"), bd=5)
         self.lbl_customer.place(x=850, y=400, height=150, width=300)
-#=============================================================================
+
+        self.update_details()
+
+    def update_details(self):
+        con = mysql.connector.connect(host="localhost", user="root", password="s63127734", database="oshes")
+        cur = con.cursor()
+        try:
+            cur.execute("select * from Request")
+            cr = cur.fetchall()
+            self.lbl_request.config(text=f"Total Request\n[{str(len(cr))}]")
+            #self.lbl_request.after(200, self.update_details)
+            cur.execute("select * from Customer")
+            cr = cur.fetchall()
+            self.lbl_customer.config(text=f"Total Customer\n[{str(len(cr))}]")
+            #self.lbl_customer.after(200, self.update_details)
+        except Exception as ex:
+            messagebox.showerror("Error", f"Error due to {str(ex)}")
+
 
     def product(self):
         self.new_win=Toplevel(self.root)
@@ -95,7 +130,21 @@ class AdminOverview:
 
     def unpaid(self):
         self.new_win=Toplevel(self.root)
-        self.new_obj=AdminSearchProduct(self.new_win)
+        self.new_obj=AdminSearchCustomers(self.new_win)
+
+    def register(self):
+        self.new_win = Toplevel(self.root)
+        self.new_obj = AdminRegister(self.new_win)
+
+    def sales(self):
+        self.new_win = Toplevel(self.root)
+        self.new_obj = DisplayProduct(self.new_win)
+
+    def initialisation(self):
+        import MySQLInitialization
+
+    def logout(self):
+        self.root.destroy()
 
 if __name__ =="__main__":
     root=Tk()

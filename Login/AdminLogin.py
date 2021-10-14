@@ -5,11 +5,8 @@ from tkinter import ttk, messagebox
 from PIL import ImageTk, Image
 import mysql.connector
 from AdminOverview import AdminOverview
+#from AdminRegister import AdminRegister
 
-
-##def toRegister():
-##    root.destroy()
-##    import Register3
     
         
 class AdminLogin:
@@ -63,6 +60,11 @@ class AdminLogin:
                                   bg="crimson", font=("Calibri", 15, 'bold'), command=self.loginAdminDB)
         self.loginButton.place(x=80, y=250, width=150)
 
+        self.regButton = Button(self.frame, text="Register", activebackground="#00B0F0",
+                                  activeforeground="white", fg="white",
+                                  bg="crimson", font=("Calibri", 15, 'bold'))
+        self.regButton.place(x=80, y=300, width=150)
+
         
 
 
@@ -80,12 +82,25 @@ class AdminLogin:
                 con=mysql.connector.connect(host="localhost", user="root", password="s63127734", database="oshes")
                 cur=con.cursor()
                 cur.execute("select * from Administrator where administratorID =%s and password = %s", (self.entry1.get(), self.entry2.get()))
+                cur.execute("update Request as r left join ServiceFee as s on r.requestID = s.requestID "
+                            "left join Payment as p on s.paymentID = p.paymentID set r.requestStatus = 'Canceled' "
+                            "where p.paymentID is null and timestampdiff(day, requestDate, curdate()) > 10")
                 row = cur.fetchone()
+                # cur.execute("update Item as i "
+                #             "right join Request as r on i.itemID = r.itemID "
+                #             "left join ServiceFee as s on r.requestID = s.requestID "
+                #             "left join Payment as p on s.paymentID = p.paymentID "
+                #             "set i.serviceStatus = '', r.requestStatus = 'canceled' "
+                #             "where p.paymentID is null "
+                #             "and timestampdiff(day, requestDate, curdate()) > 10;")
                 if row == None:
                     messagebox.showerror("Error", "Invalid Username & Password", parent=self.root)
                 else:
                     messagebox.showinfo("Success", "Welcome to Administrator Dashboard", parent=self.root)
-
+                    f = open("store_adminID.txt", "w")
+                    for t in row:
+                        f.write(''.join(str(s) for s in t) + "\n")
+                    f.close()
                     return self.administratorLogin()
                 #con.close()
             except Exception as es:
@@ -96,6 +111,10 @@ class AdminLogin:
     def administratorLogin(self):
         self.new_win = Toplevel(self.root)
         self.new_Obj = AdminOverview(self.new_win)
+
+    # def administratorReg(self):
+    #     self.new_win = Toplevel(self.root)
+    #     self.new_Obj = AdminRegister(self.new_win)
 
 if __name__ =="__main__":
     root=Tk()

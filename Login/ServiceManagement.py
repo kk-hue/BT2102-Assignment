@@ -5,9 +5,7 @@ from tkinter import ttk, messagebox
 from PIL import ImageTk, Image
 import mysql.connector
 
-root = Tk()
-
-
+#root=Tk()
 class ServiceManagement:
 
     def __init__(self, root):
@@ -17,7 +15,7 @@ class ServiceManagement:
         self.root.geometry("1350x700+0+0")
         self.root.resizable(False, False)
 
-        title = Label(self.root, text="Service Management", font=("calibri", 40, "bold"), bg="light blue", fg="white")
+        title = Label(self.root, text="Service Management", font=("calibri", 40, "bold"), bg="salmon", fg="white")
         title.pack(side=TOP, fill=X)
 
         # =====All Variables=======
@@ -35,52 +33,52 @@ class ServiceManagement:
         self.administratorID = StringVar()
         self.administratorID.set(profile_details[0])
 
-        self.search_by=StringVar()
-        self.search_txt=StringVar()
+        self.search_by = StringVar()
+        self.search_txt = StringVar()
 
         # ======Manage Frame=======
 
-        db_frame = Frame(self.root, bd=4, relief=RIDGE, bg="crimson")
+        db_frame = Frame(self.root, bd=4, relief=RIDGE, bg="peachpuff2")
         db_frame.place(x=20, y=100, width=450, height=560)
 
-        db_title = Label(db_frame, text="Manage Service", bg="crimson", fg="white", font=("calibri", 25, "bold"))
+        db_title = Label(db_frame, text="Manage Service", bg="peachpuff2", fg="white", font=("calibri", 25, "bold"))
         db_title.grid(row=0, columnspan=2, pady=20)
 
         # ======Manage request=========
 
-        iteID = Label(db_frame, text="Item ID", bg="crimson", fg="white", font=("calibri", 12, "bold"))
+        iteID = Label(db_frame, text="Item ID", bg="peachpuff2", fg="white", font=("calibri", 12, "bold"))
         iteID.grid(row=1, column=0, pady=10, padx=10, sticky="w")
         txt_id = Entry(db_frame, bd=5, textvariable=self.itemID, relief=GROOVE, bg="white", fg="black",
                        font=("calibri", 12, "bold"))
         txt_id.grid(row=1, column=1, pady=10, padx=10, sticky="w")
 
-        reqID = Label(db_frame, text="Request ID", bg="crimson", fg="white", font=("calibri", 12, "bold"))
+        reqID = Label(db_frame, text="Request ID", bg="peachpuff2", fg="white", font=("calibri", 12, "bold"))
         reqID.grid(row=2, column=0, pady=10, padx=10, sticky="w")
         txt_id = Entry(db_frame, bd=5, textvariable=self.requestID, relief=GROOVE, bg="white", fg="black",
                        font=("calibri", 12, "bold"))
         txt_id.grid(row=2, column=1, pady=10, padx=10, sticky="w")
 
-        adminID = Label(db_frame, text="Administrator ID", bg="crimson", fg="white", font=("calibri", 12, "bold"))
+        adminID = Label(db_frame, text="Administrator ID", bg="peachpuff2", fg="white", font=("calibri", 12, "bold"))
         adminID.grid(row=3, column=0, pady=10, padx=10, sticky="w")
-        txt_admin = Entry(db_frame, bd=5, textvariable=self.administratorID, state="readonly", relief=GROOVE, bg="white", fg="black",
-                       font=("calibri", 12, "bold"))
+        txt_admin = Entry(db_frame, bd=5, textvariable=self.administratorID, state="readonly", relief=GROOVE,
+                          bg="white", fg="black",
+                          font=("calibri", 12, "bold"))
         txt_admin.grid(row=3, column=1, pady=10, padx=10, sticky="w")
 
         # ======Button Frame for Service=========
-        reqbutton = Frame(db_frame, bd=4, relief=RIDGE, bg="crimson")
+        reqbutton = Frame(db_frame, bd=4, relief=RIDGE, bg="peachpuff2")
         reqbutton.place(x=15, y=500, width=420)
 
-        serveBtn = Button(reqbutton, text="Serve", width=10, command=self.Serve).grid(row=0, column=1, padx=10, pady=10)
-        completeBtn = Button(reqbutton, text="Complete", width=10, command=self.Complete).grid(row=0, column=2, padx=10, pady=10)
-        backBtn = Button(reqbutton, text="Back", width=10, command=self.Back).grid(row=0, column=3, padx=10, pady=10)
-        exitBtn = Button(reqbutton, text="Exit", width=10, command=self.Exit).grid(row=0, column=4, padx=10, pady=10)
+        serveBtn = Button(reqbutton, text="Serve", width=10, command=self.Serve).grid(row=0, column=1, padx=30, pady=10)
+        completeBtn = Button(reqbutton, text="Complete", width=10, command=self.Complete).grid(row=0, column=2, padx=30, pady=10)
+        exitBtn = Button(reqbutton, text="Exit", width=10, command=self.Exit).grid(row=0, column=3, padx=30, pady=10)
 
         # ======Detail Frame=======
 
-        detail_frame = Frame(self.root, bd=4, relief=RIDGE, bg="crimson")
+        detail_frame = Frame(self.root, bd=4, relief=RIDGE, bg="peachpuff2")
         detail_frame.place(x=500, y=100, width=800, height=560)
 
-        lbl_search = Label(detail_frame, text="Search By", bg="crimson", fg="white", font=("calibri", 20, "bold"))
+        lbl_search = Label(detail_frame, text="Search By", bg="peachpuff2", fg="white", font=("calibri", 20, "bold"))
         lbl_search.grid(row=0, column=0, pady=20, padx=7, sticky="w")
 
         combo_search = ttk.Combobox(detail_frame, textvariable=self.search_by, font=("calibri", 12, "bold"),
@@ -98,7 +96,7 @@ class ServiceManagement:
                                                                                                    padx=6, pady=10)
         # ====== Table Frame ========
 
-        table_frame = Frame(detail_frame, bd=4, relief=RIDGE, bg="crimson")
+        table_frame = Frame(detail_frame, bd=4, relief=RIDGE, bg="peachpuff2")
         table_frame.place(x=10, y=70, width=760, height=480)
 
         scroll_x = Scrollbar(table_frame, orient=HORIZONTAL)
@@ -143,7 +141,7 @@ class ServiceManagement:
         self.requestStatus.set(row[2])
         self.serviceStatus.set(row[3])
         self.customerID.set(row[4])
-        self.administratorID.set(row[5])
+      #  self.administratorID.set(row[5])
 
     def fetch_data(self):
         con=mysql.connector.connect(host="localhost", user="root", password="s63127734", database="oshes")
@@ -188,7 +186,7 @@ class ServiceManagement:
         self.itemID.set("")
         self.serviceStatus.set("")
         self.customerID.set("")
-        self.administratorID.set("")
+        #self.administratorID.set("")
 
 
 #how to clear the search result
@@ -206,11 +204,10 @@ class ServiceManagement:
             con.commit()
         con.close()
 
-    def Back(self):
-        import RequestManagement
-
     def Exit(self):
         root.destroy()
 
-main = ServiceManagement(root)
-root.mainloop()
+if __name__ =="__main__":
+    root=Tk()
+    main = ServiceManagement(root)
+    root.mainloop()
