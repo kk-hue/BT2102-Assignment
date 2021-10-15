@@ -1,11 +1,8 @@
 from tkinter import *
 from tkinter import ttk, messagebox
-# from tkinter.ttk import *
-#import tkinter.messagebox as mb
 from PIL import ImageTk, Image
 import mysql.connector
 from AdminOverview import AdminOverview
-#from AdminRegister import AdminRegister
 
     
         
@@ -23,9 +20,6 @@ class AdminLogin:
         self.image=ImageTk.PhotoImage(file="/Login/admin1.jpg")
         self.label=Label(self.root, image=self.image)
 
-##        self.top = ImageTk.PhotoImage(file="/Login/pro2.png")
-##        top = Label(self.root, image=self.top)
-##        top.place(x=550, y=10, height=150, width=150)
         self.label.pack()
         
         
@@ -59,20 +53,7 @@ class AdminLogin:
                                   activeforeground="white", fg="white",
                                   bg="crimson", font=("Calibri", 15, 'bold'), command=self.loginAdminDB)
         self.loginButton.place(x=80, y=250, width=150)
-
-        # self.regButton = Button(self.frame, text="Register", activebackground="#00B0F0",
-        #                           activeforeground="white", fg="white",
-        #                           bg="crimson", font=("Calibri", 15, 'bold'))
-        # self.regButton.place(x=80, y=300, width=150)
-
         
-
-
-##        self.regButton = Button(self.frame, text = "Register", activebackground = "#00B0F0",
-##                                activeforeground="white", fg="white", bg="orange",
-##                                font=("Calibri", 15, 'bold'), command=toRegister)
-##        self.regButton.place(x=80, y=300, width=150)
-
         
     def loginAdminDB(self):
         if (self.entry1.get() == "" or self.entry2.get() == "") :
@@ -81,11 +62,8 @@ class AdminLogin:
             try:
                 con=mysql.connector.connect(host="localhost", user="root", password="s63127734", database="oshes")
                 cur=con.cursor()
-                print(self.entry1.get())
-                print(self.entry2.get())
                 cur.execute("select * from administrator where administratorID = %s and password = %s", (self.entry1.get(), self.entry2.get()))
                 row = cur.fetchone()
-                print(row)
 
                 if row == None:
                     messagebox.showerror("Error", "Invalid Username & Password", parent=self.root)
@@ -98,18 +76,11 @@ class AdminLogin:
                     return self.administratorLogin()
                 con.close()
             except Exception as es:
-                print()
                 messagebox.showerror("Error", f"Error due to: {str(es)}", parent=self.root)
-
-    #Forget Password: https://www.youtube.com/watch?v=2xzzLoDV0XY&list=PL4P8sY6zvjk6p9u8T2etiQm6EE_15QF0y&index=6&ab_channel=Webcode
                 
     def administratorLogin(self):
         self.new_win = Toplevel(self.root)
         self.new_Obj = AdminOverview(self.new_win)
-
-    # def administratorReg(self):
-    #     self.new_win = Toplevel(self.root)
-    #     self.new_Obj = AdminRegister(self.new_win)
 
 if __name__ =="__main__":
     root=Tk()
