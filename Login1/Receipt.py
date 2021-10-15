@@ -441,7 +441,7 @@ class Bill_App:
 
 
         if self.light1.get() == 0:
-
+            print()
         elif self.light1.get() == 1:
             cur.execute("UPDATE Item SET customerID = %s, purchaseStatus = %s, "
                         "dateOfPurchase = %s WHERE purchaseStatus = %s and color = %s and "
@@ -495,7 +495,7 @@ class Bill_App:
 
         # =========================================================Light 2======================================================================
         if self.light2.get() == 0:
-
+            print()
         elif self.light2.get() == 1:
             cur.execute(
                 "UPDATE Item SET customerID = %s, purchaseStatus = %s, "
@@ -548,7 +548,7 @@ class Bill_App:
 
             # =========================================================Light 3======================================================================
         if self.LightSmart.get() == 0:
-
+            print()
         elif self.LightSmart.get() == 1:
             cur.execute(
                 "UPDATE Item SET customerID = %s, purchaseStatus = %s, "
@@ -600,7 +600,7 @@ class Bill_App:
 
         #===========================================================Safe =================================================================
         if self.Safe1.get() == 0:
-
+            print()
         elif self.Safe1.get() == 1:
             cur.execute(
                 "UPDATE Item SET customerID = %s, purchaseStatus = %s, "
@@ -652,7 +652,7 @@ class Bill_App:
 
         #==============Safe 2 ======================
         if self.Safe2.get() == 0:
-
+            print()
         elif self.Safe2.get() == 1:
             cur.execute(
                 "UPDATE Item SET customerID = %s, purchaseStatus = %s, "
@@ -704,7 +704,7 @@ class Bill_App:
 
         #=====================Safe 3 =========================
         if self.Safe3.get() == 0:
-
+            print()
         elif self.Safe3.get() == 1:
             cur.execute(
                 "UPDATE Item SET customerID = %s, purchaseStatus = %s, "
@@ -757,7 +757,7 @@ class Bill_App:
 
         #======================= Safe 4 =========================
         if self.safesmart.get() == 0:
-
+            print()
         elif self.safesmart.get() == 1:
             cur.execute(
                 "UPDATE Item SET customerID = %s, purchaseStatus = %s, "
