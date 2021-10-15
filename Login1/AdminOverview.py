@@ -1,7 +1,5 @@
 from tkinter import *
 from tkinter import ttk, messagebox
-# from tkinter.ttk import *
-#import tkinter.messagebox as mb
 from PIL import ImageTk, Image
 import mysql.connector
 from AdminSearchProduct import AdminSearchProduct
@@ -101,14 +99,9 @@ class AdminOverview:
         con = mysql.connector.connect(host="localhost", user="root", password="s63127734", database="oshes")
         cur = con.cursor()
         try:
-            # cur.execute("select * from Request")
-            # cr = cur.fetchall()
-            # self.lbl_request.config(text=f"Total Request\n[{str(len(cr))}]")
-            #self.lbl_request.after(200, self.update_details)
             cur.execute("select * from Customer")
             cr = cur.fetchall()
             self.lbl_customer.config(text=f"Total Customer\n[{str(len(cr))}]")
-            #self.lbl_customer.after(200, self.update_details)
         except Exception as ex:
             messagebox.showerror("Error", f"Error due to {str(ex)}")
 
