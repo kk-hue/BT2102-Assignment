@@ -144,8 +144,6 @@ class Bill_App:
         c_bill_txt = Entry(F1, width=25, textvariable=self.address, font="arial 12", bd=7, relief=SUNKEN, state="readonly").grid(
             row=0, column=7, pady=5, padx=10)
 
-        #bill_btn = Button(F1, text="Search", command=self.find_bill, width=10, bd=7, font="arial 12").grid(row=0,column=8,padx=6,pady=3)
-
         # ===========LIGHT CATEGORY=========
         bg_color2 = "white"
 
@@ -165,10 +163,6 @@ class Bill_App:
         bath_lbl = Label(F2, text="Price per \n "
                                   "Unit ($)", font=("times new roman", 13, "bold"), bg=bg_color2, fg="red").place(x=360, y=10)
 
-        #        tkinter.ttk.Separator(F2, orient=VERTICAL).place(x=180, y=10, width=2, height=300)
-        #           tkinter.ttk.Separator(F2, orient=HORIZONTAL).place(x=0, y=50, width=460, height=2)
-
-        #All the lights StringVar for models, colors and locks
         self.lbl_light1 = StringVar()
         self.lbl_light1.set("Light1")
         self.lbl_light2 = StringVar()
@@ -250,9 +244,6 @@ class Bill_App:
                                   "Unit ($)", font=("times new roman", 13, "bold"), bg=bg_color2, fg="red").place(x=360,
                                                                                                                   y=10)
 
-        #        tkinter.ttk.Separator(F2, orient=VERTICAL).place(x=170, y=10, width=2, height=300)
-        #        tkinter.ttk.Separator(F2, orient=HORIZONTAL).place(x=0, y=50, width=460, height=2)
-
         self.lbl_safe1 = StringVar()
         self.lbl_safe1.set("Safe1")
         self.lbl_safe2 = StringVar()
@@ -268,8 +259,6 @@ class Bill_App:
 
         self.light001 = StringVar()
         self.light001.set("4")
-
-      #  light001 = Label(F2, text="1", textvariable=self.light001).place(x=2000, y=2000)
 
         safe1_lbl = Label(F2, text="Safe1", font=("times new roman", 12, "bold"), bg=bg_color2,
                           fg=bg_color).place(x=10, y=70)
@@ -452,12 +441,6 @@ class Bill_App:
 
 
         if self.light1.get() == 0:
-            print()
-
-        # elif self.powlight1.get() == "USB":
-        #     messagebox.showerror("Error", "Light 1 (USB) is out of stock. Please select others.")
-
-
 
         elif self.light1.get() == 1:
             cur.execute("UPDATE Item SET customerID = %s, purchaseStatus = %s, "
@@ -471,7 +454,6 @@ class Bill_App:
                   self.powlight1.get(),
                   self.light1Status.get()))
             row = cur.fetchone()
-            print(row)
             con.commit()
 
 
@@ -489,7 +471,6 @@ class Bill_App:
                  self.light1Status.get()
                  ))
             row = cur.fetchone()
-            print(row)
             con.commit()
 
 
@@ -507,16 +488,13 @@ class Bill_App:
                  self.light1Status.get()
                  ))
             row = cur.fetchone()
-            print(row)
             con.commit()
-        else:  ### need to select and give error if it is out of stock.
+        else:
             messagebox.showerror("Error", "Quantity Selected for Lights 1 is above inventory level OR Out of Stock. \n"
                                           "Please try again", parent=self.root)
-            print(0)
 
         # =========================================================Light 2======================================================================
         if self.light2.get() == 0:
-            print()
 
         elif self.light2.get() == 1:
             cur.execute(
@@ -532,7 +510,6 @@ class Bill_App:
                  self.light2Status.get()
                  ))
             row = cur.fetchone()
-            print(row)
             con.commit()
 
         elif self.light2.get() == 2:
@@ -549,7 +526,6 @@ class Bill_App:
                  self.light2Status.get()
                  ))
             row = cur.fetchone()
-            print(row)
             con.commit()
         elif self.light2.get() == 3:
             cur.execute(
@@ -565,16 +541,13 @@ class Bill_App:
                  self.light2Status.get()
                  ))
             row = cur.fetchone()
-            print(row)
             con.commit()
-        else:  ### need to select and give error if it is out of stock.
+        else:
             messagebox.showerror("Error", "Quantity Selected for Lights 2 is above inventory level OR Out of Stock. \n"
                                           "Please try again", parent=self.root)
-            print(0)
 
             # =========================================================Light 3======================================================================
         if self.LightSmart.get() == 0:
-            print()
 
         elif self.LightSmart.get() == 1:
             cur.execute(
@@ -590,7 +563,6 @@ class Bill_App:
                  self.light3Status.get()
                  ))
             row = cur.fetchone()
-            print(row)
             con.commit()
         elif self.LightSmart.get() == 2:
             cur.execute(
@@ -606,7 +578,6 @@ class Bill_App:
                  self.light3Status.get()
                  ))
             row = cur.fetchone()
-            print(row)
             con.commit()
         elif self.LightSmart.get() == 3:
             cur.execute(
@@ -622,16 +593,13 @@ class Bill_App:
                  self.light3Status.get()
                  ))
             row = cur.fetchone()
-            print(row)
             con.commit()
         else:  ### need to select and give error if it is out of stock.
             messagebox.showerror("Error", "Quantity Selected for SmartHome1 is above inventory level OR Out of Stock. \n"
                                           "Please try again", parent=self.root)
-            print(0)
 
         #===========================================================Safe =================================================================
         if self.Safe1.get() == 0:
-            print()
 
         elif self.Safe1.get() == 1:
             cur.execute(
@@ -647,7 +615,6 @@ class Bill_App:
                  self.safe1Status.get()
                  ))
             row = cur.fetchone()
-            print(row)
             con.commit()
         elif self.Safe1.get() == 2:
             cur.execute(
@@ -663,7 +630,6 @@ class Bill_App:
                  self.safe1Status.get()
                  ))
             row = cur.fetchone()
-            print(row)
             con.commit()
         elif self.Safe1.get() == 3:
             cur.execute(
@@ -679,16 +645,13 @@ class Bill_App:
                  self.safe1Status.get()
                  ))
             row = cur.fetchone()
-            print(row)
             con.commit()
         else:  ### need to select and give error if it is out of stock.
             messagebox.showerror("Error", "Quantity Selected for Safe 1 is above inventory level OR Out of Stock. \n"
                                           "Please try again", parent=self.root)
-            print(0)
 
         #==============Safe 2 ======================
         if self.Safe2.get() == 0:
-            print()
 
         elif self.Safe2.get() == 1:
             cur.execute(
@@ -704,7 +667,6 @@ class Bill_App:
                  self.safe2Status.get()
                  ))
             row = cur.fetchone()
-            print(row)
             con.commit()
         elif self.Safe2.get() == 2:
             cur.execute(
@@ -720,7 +682,6 @@ class Bill_App:
                  self.safe2Status.get()
                  ))
             row = cur.fetchone()
-            print(row)
             con.commit()
         elif self.Safe2.get() == 3:
             cur.execute(
@@ -736,16 +697,13 @@ class Bill_App:
                  self.safe2Status.get()
                  ))
             row = cur.fetchone()
-            print(row)
             con.commit()
         else:  ### need to select and give error if it is out of stock.
             messagebox.showerror("Error", "Quantity Selected for Safe 2 is above inventory level OR Out of Stock. \n"
                                           "Please try again", parent=self.root)
-            print(0)
 
         #=====================Safe 3 =========================
         if self.Safe3.get() == 0:
-            print()
 
         elif self.Safe3.get() == 1:
             cur.execute(
@@ -761,7 +719,6 @@ class Bill_App:
                  self.safe3Status.get()
                  ))
             row = cur.fetchone()
-            print(row)
             con.commit()
         elif self.Safe3.get() == 2:
             cur.execute(
@@ -777,7 +734,6 @@ class Bill_App:
                  self.safe3Status.get()
                  ))
             row = cur.fetchone()
-            print(row)
             con.commit()
         elif self.Safe3.get() == 3:
             cur.execute(
@@ -793,16 +749,14 @@ class Bill_App:
                  self.safe3Status.get()
                  ))
             row = cur.fetchone()
-            print(row)
+
             con.commit()
         else:  ### need to select and give error if it is out of stock.
             messagebox.showerror("Error", "Quantity Selected for Safe 3 is above inventory level OR Out of Stock. \n"
                                           "Please try again", parent=self.root)
-            print(0)
 
         #======================= Safe 4 =========================
         if self.safesmart.get() == 0:
-            print()
 
         elif self.safesmart.get() == 1:
             cur.execute(
@@ -818,7 +772,6 @@ class Bill_App:
                  self.safe4Status.get()
                  ))
             row = cur.fetchone()
-            print(row)
             con.commit()
         elif self.safesmart.get() == 2:
             cur.execute(
@@ -834,7 +787,6 @@ class Bill_App:
                  self.safe4Status.get()
                  ))
             row = cur.fetchone()
-            print(row)
             con.commit()
         elif self.safesmart.get() == 3:
             cur.execute(
@@ -850,7 +802,6 @@ class Bill_App:
                  self.safe4Status.get()
                  ))
             row = cur.fetchone()
-            print(row)
             con.commit()
         else:  ### need to select and give error if it is out of stock.
             messagebox.showerror("Error", "Quantity Selected for SmartHome1 is above inventory level OR Out of Stock. \n"
