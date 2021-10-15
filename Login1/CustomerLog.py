@@ -84,19 +84,13 @@ class HISTORY_App:
         self.product_table.heading("productID", text="Model")
         self.product_table.heading("colour", text="Colour")
         self.product_table.heading("powerSupply", text="Power Supply")
-        #self.product_table.heading("cost", text="Cost")
-        #self.product_table.heading("warrantyDuration", text="Warranty")
-
-        #       self.product_table.heading("inventory", text="Inventory Level")
         self.product_table['show'] = 'headings'
         self.product_table.column("purchaseDate", width=100)
         self.product_table.column("itemID", width=100)
         self.product_table.column("productID", width=100)
         self.product_table.column("colour", width=100)
         self.product_table.column("powerSupply", width=100)
-        #self.product_table.column("warrantyDuration", width=100)
 
-        #     self.product_table.column("inventory",width=100)
         self.product_table.pack(fill=BOTH, expand=1)
         ttk.Style().configure(F5, background = "#FF0FFF", rowheight = 40)
 
@@ -111,10 +105,8 @@ class HISTORY_App:
         cur = con.cursor()
         cur.execute("select creationDate from servicefee where requestID =%s", (self.itemID.get(),))
         row = cur.fetchone()
-        print(row)
 
         if row == None:
-            print(1)
         else:
             if row + timedelta(days=10) < date.today():
                 cur.execute("UPDATE request SET requestStatus = 'Canceled' WHERE itemID = %s", (self.itemID.get(),))
@@ -127,7 +119,6 @@ class HISTORY_App:
         cursor_row = self.product_table.focus()
         contents = self.product_table.item(cursor_row)
         row = contents['values']
-        print(row)
         self.purchaseDate.set(row[0])
         self.itemID.set(row[1])
         self.modelID.set(row[2])
@@ -180,7 +171,6 @@ class HISTORY_App:
             cur = con.cursor()
             cur.execute("select * from Item where itemID =%s", (self.itemID.get(),))
             row = cur.fetchone()
-            #if there is a request, SEAERCH FOR A REQUEST that corrrespeond ot
 
             f = open("store_itemID.txt", "w")
             for t in row:
