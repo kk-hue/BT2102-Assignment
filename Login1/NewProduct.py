@@ -1,7 +1,5 @@
 from tkinter import *
 from tkinter import ttk, messagebox
-# from tkinter.ttk import *
-#import tkinter.messagebox as mb
 from PIL import ImageTk, Image
 import mysql.connector
 from Profile import Profile
@@ -54,8 +52,6 @@ class NewProduct:
         btn_service = Button(leftmenu, text="History", font=("Times New Roman", 20, "bold"), bg="white", bd=3,
                              cursor="hand2", command=self.history)
         btn_service.place(y=540, height=152, width=200)
-
-        #Content
 
         #===========Text Description===========
         self.desc1 = Label(self.root, text="Products that are suitable for you. \n"
