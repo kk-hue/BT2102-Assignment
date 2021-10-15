@@ -1,0 +1,14 @@
+	 Welcome to OSHSE 
+
+ Customer ID : kevin
+ Customer Name : Kevin
+ Phone Number : 81239712
+ Address : NUS SOC
+ ====================================
+ Products		QTY		Price
+ ====================================
+ Light1		1		50
+ Safe2		1		120
+ ------------------------------------
+ Total Bill : 		 SGD 170.0
+ ------------------------------------
