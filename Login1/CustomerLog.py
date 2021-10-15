@@ -106,8 +106,7 @@ class HISTORY_App:
         cur.execute("select creationDate from servicefee where requestID =%s", (self.itemID.get(),))
         row = cur.fetchone()
 
-        if row == None:
-        else:
+        if row != None:
             if row + timedelta(days=10) < date.today():
                 cur.execute("UPDATE request SET requestStatus = 'Canceled' WHERE itemID = %s", (self.itemID.get(),))
                 cur.execute("UPDATE servicefee SET paymentID = '' WHERE requestID = %s", (self.itemID.get(),))
