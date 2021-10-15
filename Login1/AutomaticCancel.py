@@ -1,7 +1,5 @@
 from tkinter import *
 from tkinter import ttk, messagebox
-# from tkinter.ttk import *
-# import tkinter.messagebox as mb
 from PIL import ImageTk, Image
 import mysql.connector
 import datetime
@@ -17,8 +15,6 @@ class AutomaticCancel:
 
         title = Label(self.root, text="Automatic cancel", font=("calibri", 40, "bold"), bg="light blue", fg="white")
         title.pack(side=TOP, fill=X)
-
-        # =====All Variables=======
 
         # ======Manage Frame=======
         db_frame = Frame(self.root, bd=4, relief=RIDGE, bg="crimson")
