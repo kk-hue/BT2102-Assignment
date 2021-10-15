@@ -1,6 +1,4 @@
 from tkinter import *
-# from tkinter.ttk import *
-#import tkinter.messagebox as mb
 from PIL import ImageTk, Image
 
 root=Tk()
@@ -17,7 +15,6 @@ class Register:
         self.root.title("Login System (OSHES)")
         self.root.geometry("1280x700+200+70")
         self.root.resizable(False, False)
-       # self.root.config(bg="white")
 
         #Adding image#
 
