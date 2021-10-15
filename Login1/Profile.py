@@ -1,6 +1,4 @@
 from tkinter import *
-# from tkinter.ttk import *
-#import tkinter.messagebox as mb
 from PIL import ImageTk
 import mysql.connector
 
@@ -11,7 +9,6 @@ class Profile:
         self.root.title("Login System (OSHES)")
         self.root.geometry("1280x700+200+70")
         self.root.resizable(False, False)
-       # self.root.config(bg="white")
 
         #Adding image#
 
@@ -34,8 +31,6 @@ class Profile:
         profile_details = []
         for line in f:
             profile_details.append(line.rstrip())
-
-        print(profile_details[0])
 
         self.id_var.set(profile_details[0])
         self.name_var.set(profile_details[1])
@@ -86,13 +81,6 @@ class Profile:
         txt_address = Entry(frame1, font=("calibri",15), bg="lightgray", state="readonly", textvariable=self.address_var)
         txt_address.place(x=50, y=290, width=350)
 
-        #Register Button
-   #     check=Button(frame1, text="Purchase History", font=("Cambria", 15, "bold"), fg="white", bg="light blue")
-     #   check.place(x=50, y=360)
-
-    #    check1=Button(frame1, text="Request and Service History", font=("Cambria", 15, "bold"), fg="white", bg="light blue")
-    #    check1.place(x=250, y=360)
-
         check2 = Button(frame1, text="Back", font=("Cambria", 15, "bold"), fg="white", bg="light blue", command=self.destroyProfile)
         check2.place(x=50, y=440)
 
@@ -105,10 +93,6 @@ class Profile:
         self.num_var.set(rows[4])
         self.email_var.set(rows[3])
         self.address_var.set(rows[5])
-        if rows is None:
-            print("empty")
-        else:
-            print(rows)
 
     def destroyProfile(self):
         self.root.destroy()
