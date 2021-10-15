@@ -1,7 +1,5 @@
 from tkinter import *
 from tkinter import ttk, messagebox
-# from tkinter.ttk import *
-# import tkinter.messagebox as mb
 from PIL import ImageTk, Image
 import mysql.connector
 
@@ -14,7 +12,6 @@ class AdminRegister:
         self.root.title("Registration System for Admin (OSHES)")
         self.root.geometry("1280x700+200+70")
         self.root.resizable(False, False)
-        # self.root.config(bg="white")
 
         # Adding image#
 
@@ -59,15 +56,6 @@ class AdminRegister:
         # Gender 1
         gender = Label(frame1, text="Gender", font=("calibri", 15, "bold"), bg="white", fg="gray")
         gender.place(x=370, y=190)
-
-        '''
-        var = StringVar()
-        var.set('male')
-        self.male_rb = Radiobutton(frame1, text='Male', bg="lightgray",variable=var, value="Male",font=("calibri",15))
-        self.male_rb.place(x=370, y=200)
-        self.female_rb = Radiobutton(frame1, text='Female', bg="lightgray",variable=var, value="Female",font=("calibri",15))
-        self.female_rb.place(x=470, y=200)
-        '''
 
         # Gender 2
         self.gender_cmb = ttk.Combobox(frame1, font=("calibri", 15), state='readonly', justify=CENTER)
