@@ -1,7 +1,5 @@
 from tkinter import *
 from tkinter import ttk, messagebox
-# from tkinter.ttk import *
-# import tkinter.messagebox as mb
 from PIL import ImageTk, Image
 import mysql.connector
 
@@ -164,7 +162,6 @@ class AdminDB:
                      self.price_var.get(),
                      self.cost_var.get(),
                      self.warranty_var.get()))
-        #  self.inventory_var.get()
         con.commit()
         self.fetch_data()
         self.clear()
@@ -204,14 +201,6 @@ class AdminDB:
     def update_data(self):
         con = mysql.connector.connect(host="localhost", user="root", password="s63127734", database="oshes")
         cur = con.cursor()
-        ##        cur.execute("update Product set productModel=%s, category=%s, price=%s, cost=%s, warrantyDuration=%s where productID = %s ",(
-        ##            self.model_var.get(),
-        ##            self.category_var.get(),
-        ##            self.price_var.get(),
-        ##            self.cost_var.get(),
-        ##            self.warranty_var.get(),
-        ##            self.id_var.get()
-        ##            ))
         # ====== Can change all except Model as it is the reference ======, if change to ID cannot work. need to figure out why
         cur.execute("update Product set productID=%s, category=%s, price=%s, cost=%s, "
                     "warrantyDuration=%s where productModel = %s ", (
