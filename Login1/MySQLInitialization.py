@@ -86,13 +86,7 @@ class MySQLInitialization:
             messagebox.showerror("Error", f"Error due to {str(ex)}")
 
 
-
-#if __name__ =="__main__":
 root=Tk()
 main = MySQLInitialization(root)
 root.mainloop()
-
-# main = MySQLInitialization(root)
-# main.initialize_database()
-
 
