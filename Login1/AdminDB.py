@@ -136,7 +136,6 @@ class AdminDB:
         self.product_table.heading("price", text="Price")
         self.product_table.heading("cost", text="Cost")
         self.product_table.heading("warrantyDuration", text="Warranty")
- #       self.product_table.heading("inventory", text="Inventory Level")
         self.product_table['show']='headings'
         self.product_table.column("productID",width=100)
         self.product_table.column("productModel",width=100)
@@ -144,7 +143,6 @@ class AdminDB:
         self.product_table.column("price",width=100)
         self.product_table.column("cost",width=100)
         self.product_table.column("warrantyDuration",width=100)
-   #     self.product_table.column("inventory",width=100)
         self.product_table.pack(fill=BOTH, expand=1)
 
         self.product_table.bind("<ButtonRelease-1>", self.get_cursor)
@@ -202,14 +200,6 @@ class AdminDB:
     def update_data(self):
         con=mysql.connector.connect(host="localhost", user="root", password="s63127734", database="oshes")
         cur=con.cursor()
-##        cur.execute("update Product set productModel=%s, category=%s, price=%s, cost=%s, warrantyDuration=%s where productID = %s ",(
-##            self.model_var.get(),
-##            self.category_var.get(),
-##            self.price_var.get(),
-##            self.cost_var.get(),
-##            self.warranty_var.get(),
-##            self.id_var.get()
-##            ))
         #====== Can change all except Model as it is the reference ======, if change to ID cannot work. need to figure out why 
         cur.execute("update Product set productID=%s, category=%s, price=%s, cost=%s, "
                     "warrantyDuration=%s where productModel = %s ",(
