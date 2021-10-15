@@ -1,9 +1,6 @@
 from tkinter import *
 from tkinter import ttk, messagebox
-# from tkinter.ttk import *
-# import tkinter.messagebox as mb
 from pymongo import MongoClient
-#client = MongoClient()
 client = MongoClient('localhost', 27017)
 db = client["OSHES"]
 itemcol = db["items"]
@@ -20,8 +17,6 @@ collection_filter3.delete_many({})
 collection_filter4.delete_many({})
 collection_filter5.delete_many({})
 collection_filter6.delete_many({})
-
-#root = Tk()
 
 
 class CustomerSearchProduct:
@@ -196,7 +191,6 @@ class CustomerSearchProduct:
                     for x in cursorList:
                         filter1List = list(itemcol.find({'$and':[{'Category': x['Category']}, {'Model': x['Model']}, {'PurchaseStatus': 'Unsold'}]}))
                         collection_filter1.insert_many(filter1List)
-                        print(filter1List)
 
                         if price == '':
                             collection_filter2 = db["filter2"]
