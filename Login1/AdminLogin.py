@@ -87,7 +87,6 @@ class AdminLogin:
                 row = cur.fetchone()
                 print(row)
 
-                row = cur.fetchone()
                 if row == None:
                     messagebox.showerror("Error", "Invalid Username & Password", parent=self.root)
                 else:
