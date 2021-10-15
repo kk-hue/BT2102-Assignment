@@ -1,7 +1,5 @@
 from tkinter import *
 from tkinter import ttk, messagebox
-# from tkinter.ttk import *
-#import tkinter.messagebox as mb
 from PIL import ImageTk, Image
 from pymongo import MongoClient
 import mysql.connector
@@ -82,7 +80,6 @@ class Import:
             try:
                 productList = list(procol.find())
                 itemList = list(itemcol.find())
-                print(productList)
 
                 connection = mysql.connector.connect(host=self.host.get(),
                                                      database=self.database.get(),
@@ -101,7 +98,6 @@ class Import:
                 cursor1.executemany(mySql_insert_query1, records_to_insert1)
                 connection.commit()
                 messagebox.showinfo("Success",str(cursor1.rowcount) + " Record inserted successfully into Product table", parent=self.root)
-                print(cursor1.rowcount, "Record inserted successfully into Product table")
 
                 productDict = dict()
                 for product in productList:
@@ -121,7 +117,6 @@ class Import:
                 connection.commit()
                 messagebox.showinfo("Success", str(cursor2.rowcount) + " Record inserted successfully into Item table",
                                     parent=self.root)
-                print(cursor2.rowcount, "record inserted successfully into Item table")
 
                 cursor1.close()
                 cursor2.close()
@@ -130,7 +125,6 @@ class Import:
 
             except mysql.connector.Error as error:
                 messagebox.showerror("Error", "Failed to insert record into MySQL table {}".format(error), parent=self.root)
-                print("Failed to insert record into MySQL table {}".format(error))
 
 if __name__ =="__main__":
     root = Tk()
