@@ -1,7 +1,5 @@
 from tkinter import *
 from tkinter import ttk, messagebox
-# from tkinter.ttk import *
-# import tkinter.messagebox as mb
 from PIL import ImageTk, Image
 import mysql.connector
 
@@ -45,14 +43,12 @@ class AdminSearchCustomers:
         self.search_table.heading("Gender", text="Gender")
         self.search_table.heading("Email", text="Email")
         self.search_table.heading("Phone Number", text="Phone Number")
-        #       self.product_table.heading("inventory", text="Inventory Level")
         self.search_table['show'] = 'headings'
         self.search_table.column("Customer ID", width=100)
         self.search_table.column("Name", width=100)
         self.search_table.column("Gender", width=100)
         self.search_table.column("Email", width=100)
         self.search_table.column("Phone Number", width=100)
-        #     self.product_table.column("inventory",width=100)
         self.search_table.pack(fill=BOTH, expand=1)
 
         self.search_table.bind("<ButtonRelease-1>", self.get_cursor)
