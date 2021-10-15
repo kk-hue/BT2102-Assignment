@@ -159,7 +159,6 @@ class AdminDB:
                      self.price_var.get(),
                      self.cost_var.get(),
                      self.warranty_var.get()))
-                   #  self.inventory_var.get()
         con.commit()
         self.fetch_data()
         self.clear()
