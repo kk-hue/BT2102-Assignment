@@ -351,7 +351,6 @@ class Request_Payment:
             cur.execute("UPDATE request SET requestStatus = 'Submitted' WHERE requestID = %s",
                         (self.itemID.get(),))
             self.requestStatus.set("Submitted")
-        else:
         con.commit()
         con.close()
 
