@@ -84,7 +84,6 @@ class Request_Payment:
         cur.execute("select * from Request where itemID = %s", (self.itemID.get(),))
         row = cur.fetchall()
         try:
-            print("CHECKING FOR REQUEST")
             self.requestStatus.set(row[0][1])
             self.requestID.set(row[0][0])
         except:
@@ -100,7 +99,6 @@ class Request_Payment:
         try:
             print("CHECKING FOR SERVICEFEE")
             self.paymentID.set(row2[0][1])
-            #self.requestApprovalDate.set(row2[0][2])
         except:
             con.commit()
             con.close()
@@ -123,7 +121,6 @@ class Request_Payment:
         cur = con.cursor()
         cur.execute("select * from item where itemID = %s", (self.itemID.get(),))
         row3 = cur.fetchall()
-        print("CHECKING FOR SERVICESTATUS")
         if row3[0][6] == None:
             self.serviceStatus.set("")
         con.commit()
@@ -134,20 +131,14 @@ class Request_Payment:
         cur = con.cursor()
         cur.execute("select productID from item where itemID = %s", (self.itemID.get(),))
         row4 = cur.fetchone()
-        #get productID
 
         self.productID.set(row4[0])
-        print(self.productID.get())
 
         cur.execute("select cost,warrantyDuration from product where productID = %s", (self.productID.get(),))
         row5 = cur.fetchone()
         self.warrantyDuration.set(row5[1])
         splitHolder = self.warrantyDuration.get().split(" ")
         self.warrantyDuration = splitHolder[0]
-        # get price
-        print(splitHolder)
-        print(self.warrantyDuration)
-        print(row5)
 
         # UPDATES WARRANTYTILL
         self.warrantyTill = datetime.strptime(self.purchaseDate.get(), "%Y-%m-%d").date()
@@ -155,14 +146,9 @@ class Request_Payment:
         self.warrantyTill = self.warrantyTill + timedelta(days=int(self.warrantyDuration) * 30)
         self.purchaseDateWarranty.set(self.warrantyTill.strftime("%Y-%m-%d"))
 
-        print("date.compare")
-        print(date.today() < self.warrantyTill)
-        print("WALAOAOOAOAOAOAOAOOA")
         self.holder.set(int(row5[0]))
-        print(self.holder.get())
         self.paymentIDdisplay.set("")
         self.amtPayable.set(40 + float(self.holder.get() * 0.2))
-        print(self.requestStatus.get())
 
         if self.requestStatus.get() == "In progress":
             self.requestApprovalDate.set("")
@@ -175,8 +161,6 @@ class Request_Payment:
             self.materialFee.set(int(row5[0]) * 0.2)
             self.amtPayable.set(40 + float(self.materialFee.get()))
 
-            print("hellooooooooooo")
-
         else:
             self.flatFee.set(0)
             self.materialFee.set(0)
@@ -186,10 +170,6 @@ class Request_Payment:
 
         con.commit()
         con.close()
-
-        # if self.requestStatus.get() == "Submitted and Waiting for payment":
-        #     self.paymentIDdisplay.set("")
-        # else:
 
         self.stillunderwarranty = date.today() < self.warrantyTill
 
@@ -327,10 +307,6 @@ class Request_Payment:
         con = mysql.connector.connect(host="localhost", user="root", password="s63127734", database="oshes")
         cur = con.cursor()
 
-        # if self.requestStatus.get() == "" and date.today() > self.warrantyTill:
-        #      self.requestStatus.set("Submitted and Waiting for payment")
-        # if self.requestStatus.get() == "" and date.today() < self.warrantyTill:
-        #      self.requestStatus.set("Submitted")
         if self.requestStatus.get() == "Canceled":
             makeanotherreq = messagebox.askyesno("Confirmation", "Do you really want to make another request?")
             #find old request and update the request
@@ -361,18 +337,7 @@ class Request_Payment:
                             (self.requestID.get(), self.itemID.get(), str(date.today()), self.flatFee.get(), self.materialFee.get()))
                 self.flatFee.set(40)
                 self.materialFee.set(int(self.holder.get()) * 0.2)
-                print(self.holder.get())
-                print(self.materialFee.get())
                 self.amtPayable.set(40 + float(self.materialFee.get()))
-                print("GROUP3636363636")
-
-            # else:
-            # #elif self.stillunderwarranty == False and self.paymentID != "":
-            #     print(self.paymentID.get())
-            #     self.requestStatus.set("In progress")
-            #     cur.execute(
-            #         "UPDATE Request SET requestStatus = 'In progress' where requestID = %s",
-            #         (self.itemID.get(),))
 
             self.requestApprovalDate.set("")
             self.serviceStatus.set("")
@@ -387,7 +352,6 @@ class Request_Payment:
                         (self.itemID.get(),))
             self.requestStatus.set("Submitted")
         else:
-            print("1")
         con.commit()
         con.close()
 
@@ -425,16 +389,12 @@ class Request_Payment:
         cur = con.cursor()
         cur.execute("select itemID,customerID,administratorID from item where itemID =%s", (self.itemID.get(),))
         row = cur.fetchall()
-        print(row)
         rowholder = []
         for element in row[0]:
             rowholder.append(element)
         rowholder.append(self.amtPayable.get())
         rowholder.append(self.requestID.get())
         rowholder.append(self.materialFee.get())
-        print("HERE")
-        print(rowholder)
-        print(self.requestStatus.get())
 
         if self.requestStatus.get() == "Submitted":  # 1410
             messagebox.showinfo("Notice", "Item is under warranty.\nNo payment is needed.")  # 14/10
@@ -444,24 +404,18 @@ class Request_Payment:
 
         if self.requestStatus.get() == "Submitted and Waiting for payment":  #
             return self.paymentpage()
-            #messagebox.showinfo("Notice", "Please make payment.")  # 14/10
         else:
             q = open("store_custanditemID", "w")
             for t in rowholder:
-                print(t)
                 if t == None:
                     q.write("NULL" + "\n")
                 elif type(t) == int:
-                    print("hello")
-                    print(t)
                     q.write(str(t) + "\n")
                 else:
                     try:
                         q.write(''.join(str(s) for s in t.strftime("%Y-%m-%d")) + "\n") #%m/%d/%Y
                     except:
                         q.write(''.join(str(s) for s in t) + "\n")
-
-            #if self.paymentID.get() != "":
 
         q.close()
 
