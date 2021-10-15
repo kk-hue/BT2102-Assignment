@@ -1,15 +1,11 @@
 from tkinter import *
 from tkinter import ttk, messagebox
-# noinspection PyUnresolvedReferences
-# from PIL import Image
 import pymongo
 from pymongo import MongoClient
 
-# client = MongoClient()
 client = pymongo.MongoClient("mongodb://localhost:27017/")
 db = client["OSHES"]
 collection = db["items"]
-#root = Tk()
 
 
 class AdminSearchItem:
@@ -76,7 +72,6 @@ class AdminSearchItem:
         self.item_table.heading("PurchaseStatus", text="PurchaseStatus")
         self.item_table.heading("Model", text="Model")
         self.item_table.heading("ServiceStatus", text="ServiceStatus")
-        #       self.product_table.heading("inventory", text="Inventory Level")
         self.item_table['show'] = 'headings'
         self.item_table.column("ItemID", width=100, anchor=S)
 
@@ -108,9 +103,6 @@ class AdminSearchItem:
                     messagebox.showerror("Error", "No Item Found!", parent=self.root)
             except Exception as es:
                 messagebox.showerror("Error", f"Error due to: {str(es)}",parent=self.root)
-
-    # Forget Password: https://www.youtube.com/watch?v=2xzzLoDV0XY&list=PL4P8sY6zvjk6p9u8T2etiQm6EE_15QF0y&index=6&ab_channel=Webcode
-
 
 
 if __name__ =="__main__":
