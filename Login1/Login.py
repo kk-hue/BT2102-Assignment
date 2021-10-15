@@ -1,7 +1,5 @@
 from tkinter import *
 from tkinter import ttk, messagebox
-# from tkinter.ttk import *
-#import tkinter.messagebox as mb
 from PIL import ImageTk, Image
 import mysql.connector
 from NewProduct import NewProduct
@@ -110,9 +108,6 @@ class Login:
     def goRegister(self):
         self.new_win = Toplevel(self.root)
         self.new_Obj = Register(self.new_win)
-
-
-    #Forget Password: https://www.youtube.com/watch?v=2xzzLoDV0XY&list=PL4P8sY6zvjk6p9u8T2etiQm6EE_15QF0y&index=6&ab_channel=Webcode
 
 if __name__ =="__main__":
     root=Tk()
