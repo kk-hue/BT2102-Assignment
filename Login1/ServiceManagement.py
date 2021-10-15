@@ -1,11 +1,8 @@
 from tkinter import *
 from tkinter import ttk, messagebox
-# from tkinter.ttk import *
-# import tkinter.messagebox as mb
 from PIL import ImageTk, Image
 import mysql.connector
 
-#root=Tk()
 class ServiceManagement:
 
     def __init__(self, root):
@@ -117,7 +114,6 @@ class ServiceManagement:
         self.service_table.heading("Service Status", text="Service Status")
         self.service_table.heading("Customer ID", text="Customer ID")
         self.service_table.heading("Administrator ID", text="Administrator ID")
-        #       self.product_table.heading("inventory", text="Inventory Level")
         self.service_table['show'] = 'headings'
         self.service_table.column("Item ID", width=100)
         self.service_table.column("Request ID", width=100)
@@ -125,7 +121,6 @@ class ServiceManagement:
         self.service_table.column("Service Status", width=100)
         self.service_table.column("Customer ID", width=100)
         self.service_table.column("Administrator ID", width=100)
-        #     self.product_table.column("inventory",width=100)
         self.service_table.pack(fill=BOTH, expand=1)
 
         self.service_table.bind("<ButtonRelease-1>", self.get_cursor)
@@ -141,7 +136,6 @@ class ServiceManagement:
         self.requestStatus.set(row[2])
         self.serviceStatus.set(row[3])
         self.customerID.set(row[4])
-      #  self.administratorID.set(row[5])
 
     def fetch_data(self):
         con=mysql.connector.connect(host="localhost", user="root", password="s63127734", database="oshes")
@@ -155,7 +149,6 @@ class ServiceManagement:
             con.commit()
         con.close()
 
-#some problems with update the status in approval
     def Serve(self):
         con = mysql.connector.connect(host="localhost", user="root", password="s63127734", database="oshes")
         cur = con.cursor()
@@ -186,10 +179,6 @@ class ServiceManagement:
         self.itemID.set("")
         self.serviceStatus.set("")
         self.customerID.set("")
-        #self.administratorID.set("")
-
-
-#how to clear the search result
 
     def search_data(self):
         con=mysql.connector.connect(host="localhost", user="root", password="s63127734", database="oshes")
