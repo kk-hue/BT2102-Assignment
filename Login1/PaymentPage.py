@@ -29,11 +29,9 @@ class Payment_Page:
         self.materialFee = IntVar()
 
         f = open("store_custanditemID", "r")
-        print(f)
         profile_details = []
         for line in f:
             profile_details.append(line.rstrip())
-            print(line)
         self.itemID.set(profile_details[0])
         self.customerID.set(profile_details[1])
         self.administratorID.set(profile_details[2])
@@ -82,29 +80,17 @@ class Payment_Page:
     def cfmpayment(self):
         con = mysql.connector.connect(host="localhost", user="root", password="s63127734", database="oshes")
         cur = con.cursor()
-        print(1)
-        print(self.paymentID.get())
-        print(self.amtPayable.get())
-        print(self.requestID.get())
         cur.execute("UPDATE request SET requestStatus = 'In progress' WHERE requestID = %s",
                     (self.requestID.get(),))
         row = cur.fetchone()
-        print(row)
         cur.execute("INSERT INTO payment VALUES (%s, %s, %s, %s)",
                     (self.paymentID.get(),  str(date.today()), self.amtPayable.get(), self.customerID.get()))
-
-       # cur.execute("UPDATE servicefee SET paymentID = " + self.paymentID.get() + " WHERE requestID = %s", (self.requestID.get()))
         cur.execute("UPDATE servicefee SET paymentID = %s WHERE requestID = %s", (self.paymentID.get(), self.requestID.get()))
 
         cur.execute("UPDATE servicefee SET flatFee = '40', materialFee = %s WHERE requestID = %s",
                     (self.materialFee.get(), self.requestID.get()))
 
         op = messagebox.showinfo("Payment", "Payment completed.")
-
-
-        #cur.execute("UPDATE payment SET paymentID = %s WHERE requestID = %s", (self.paymentID.get(), self.requestID.get()))
-
-        print(2)
         con.commit()
         con.close()
         self.root.destroy()
