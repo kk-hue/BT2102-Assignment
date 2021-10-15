@@ -1,12 +1,8 @@
 from tkinter import *
 from tkinter import ttk, messagebox
-# from tkinter.ttk import *
-# import tkinter.messagebox as mb
 from PIL import ImageTk, Image
 import mysql.connector
 from datetime import date
-
-#root = Tk()
 
 
 class RequestManagement:
@@ -76,7 +72,6 @@ class RequestManagement:
         reqbutton.place(x=15, y=500, width=420)
 
         approveBtn = Button(reqbutton, text="Approve", width=20, command=self.ApproveRequest).grid(row=0, column=1, padx=20, pady=10)
-        #serviceBtn = Button(reqbutton, text="Go to Service", width=20, command=self.GoToService).grid(row=0, column=2, padx=20, pady=10)
 
         # ======Detail Frame=======
 
@@ -122,14 +117,12 @@ class RequestManagement:
         self.request_table.heading("Request Date", text="Request Date")
         self.request_table.heading("Customer ID", text="Customer ID")
         self.request_table.heading("Item ID", text="Item ID")
-        #       self.product_table.heading("inventory", text="Inventory Level")
         self.request_table['show'] = 'headings'
         self.request_table.column("Request ID", width=100)
         self.request_table.column("Request Status", width=100)
         self.request_table.column("Request Date", width=100)
         self.request_table.column("Customer ID", width=100)
         self.request_table.column("Item ID", width=100)
-        #     self.product_table.column("inventory",width=100)
         self.request_table.pack(fill=BOTH, expand=1)
 
         self.request_table.bind("<ButtonRelease-1>", self.get_cursor)
@@ -188,7 +181,6 @@ class RequestManagement:
         self.requestStatus.set("")
         self.requestDate.set("")
         self.customerID.set("")
-       # self.administratorID.set("")
         self.itemID.set("")
 
 #how to clear the search result
